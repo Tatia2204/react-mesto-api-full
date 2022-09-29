@@ -1,0 +1,22 @@
+.profile__info {
+    max-width: 38%;
+    margin: 22px 244px 25px 30px;
+    padding: 0;
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: 93% 7%;
+    grid-template-areas:
+        "name info-edit"
+        "profession profession";
+    column-gap: 18px;
+    row-gap: 16px;
+}
+
+@media screen and (max-width: 960px) {
+    .profile__info {
+        max-width: 88%;
+        margin: 0 auto 36px;
+        column-gap: 10px;
+        row-gap: 14px;
+    }
+}

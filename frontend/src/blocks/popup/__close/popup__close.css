@@ -1,0 +1,17 @@
+.popup__close {
+    width: 32px;
+    height: 32px;
+    background: transparent url("../../../images/Close Icon.svg") no-repeat center;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    align-self: center;
+    grid-area: close;
+}
+
+@media screen and (max-width: 960px) {
+    .popup__close {
+        width: 20px;
+        height: 20px;
+    }
+}

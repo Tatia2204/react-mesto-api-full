@@ -1,0 +1,33 @@
+.header {
+    width: 69%;
+    margin: 45px auto 36px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(84, 84, 84, 0.7);
+    position: relative;
+}
+
+@media screen and (min-width: 1500px) {
+    .header {
+        width: 52%;
+    }
+}
+
+@media screen and (max-width: 1175px) {
+    .header {
+        width: 82%;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .header {
+        width: 100%;
+        margin: 28px 0 42px;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .header {
+        margin-bottom: 37px;
+    }
+}

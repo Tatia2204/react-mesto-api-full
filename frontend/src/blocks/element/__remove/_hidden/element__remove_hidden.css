@@ -1,0 +1,4 @@
+.element__remove_hidden {
+    visibility: hidden;
+    opacity: 0;
+}

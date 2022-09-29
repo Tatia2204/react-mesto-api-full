@@ -1,0 +1,15 @@
+.popup__indent {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 30px;
+    width: 83%;
+}
+
+@media screen and (max-width: 960px) {
+    .popup__indent {
+        width: 84%;
+        margin-right: 22px;
+        margin-left: 22px;
+    }
+}
