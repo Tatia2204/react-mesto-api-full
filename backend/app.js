@@ -6,6 +6,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const helmet = require('helmet');
 const DefaultError = require('./errors/DefaultError');
 const routes = require('./routes');
+const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -18,6 +19,12 @@ app.disable('x-powered-by');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "https://tanja2204.nomoredomains.icu",
+    credentials: true,
+  })
+  );
 
 app.use(requestLogger);
 
