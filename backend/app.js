@@ -1,12 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const helmet = require('helmet');
+const cors = require('cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const DefaultError = require('./errors/DefaultError');
 const routes = require('./routes');
-const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -21,12 +22,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://tanja2204.nomoredomains.icu",
-    credentials: true,
-  })
-  );
+    origin: 'https://tanja2204.nomoredomains.icu',
+  }),
+);
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use(routes);
 
