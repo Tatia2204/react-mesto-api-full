@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const cors = require('cors');
+const corsRequest = require('./middlewares/corsRequest');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const DefaultError = require('./errors/DefaultError');
 const routes = require('./routes');
@@ -21,7 +21,7 @@ app.disable('x-powered-by');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors());
+app.use(corsRequest);
 
 app.use(requestLogger);
 
