@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.tanja2204.nomoredomains.icu';
 
 const checkResponse = (response) =>
     response.ok ?

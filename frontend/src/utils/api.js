@@ -97,11 +97,7 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
-    headers: {
-        authorization: 'ffa77eee-e2e0-4984-80c5-a3aae1c9cc92',
-        'Content-Type': 'application/json'
-    }
+    baseUrl: 'https://api.tanja2204.nomoredomains.icu',
 });
 
 export default api;
