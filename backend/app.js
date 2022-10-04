@@ -20,11 +20,8 @@ app.disable('x-powered-by');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: 'https://tanja2204.nomoredomains.icu',
-  }),
-);
+
+app.use(cors());
 
 app.use(requestLogger);
 
