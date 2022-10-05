@@ -9,6 +9,7 @@ const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
 }
+
 export const register = ({ email, password }) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
@@ -24,7 +25,7 @@ export const authorize = ({ email, password }) => {
         headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(res => checkResponse(res))
+        .then(res => checkResponse(res));
 };
 
 export const getContent = (jwt) => {
@@ -35,6 +36,5 @@ export const getContent = (jwt) => {
             'Authorization' : `Bearer ${jwt}`,
         },
     })
-        .then(res => checkResponse(res))
-        .then(data => data)
+        .then(res => checkResponse(res));
 };
