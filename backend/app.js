@@ -15,9 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({
-  origin: 'https://tanja2204.nomoredomains.icu',
-}));
+app.use(cors());
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
