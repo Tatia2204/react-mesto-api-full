@@ -2,7 +2,6 @@ const allowedCors = [
   'http://tanja2204.nomoredomains.icu',
   'https://tanja2204.nomoredomains.icu',
   'http://localhost:3000',
-  'https://localhost:3000',
 ];
 
 module.exports = (req, res, next) => {
