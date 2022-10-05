@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const cors = require('./middlewares/corsRequest');
+const cors = require('cors');
+// const cors = require('./middlewares/corsRequest');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const DefaultError = require('./errors/DefaultError');
 const routes = require('./routes');
@@ -14,7 +15,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors);
+app.use(cors({
+  origin: 'https://tanja2204.nomoredomains.icu',
+}));
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
