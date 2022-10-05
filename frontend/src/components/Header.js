@@ -20,7 +20,7 @@ function Header({ userEmail, loggedIn, onLogout, onRegister  }) {
                      ) : null}
                 {location.pathname === "/signin" ? (
                     <div className="header__group">
-                        <Link className="link header__link header__link_register" to="sign-up" onRegister={onRegister}>Регистрация</Link>
+                        <Link className="link header__link header__link_register" to="signup" onRegister={onRegister}>Регистрация</Link>
                     </div>
                     ) : null}
         </header>
