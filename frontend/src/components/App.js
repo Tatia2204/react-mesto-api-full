@@ -30,6 +30,11 @@ function App() {
     const [userEmail, setUserEmail] = React.useState('');
     const history = useHistory();
 
+    useEffect(() => {
+        handleTokenCheck();
+        // eslint-disable-next-line
+    }, [history]);
+
     function handleEditAvatarHandler() {
         setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
     }
@@ -64,7 +69,8 @@ function App() {
     }
 
     function handleUpdateUser(newProfileInfo) {
-        api.changeProfileInfo(newProfileInfo)
+        const jwt = localStorage.getItem('jwt');
+        api.changeProfileInfo(newProfileInfo, jwt)
             .then((data) => {
                 setCurrentUser(data);
                 closeAllPopups();
@@ -75,7 +81,8 @@ function App() {
     }
 
     function handleUpdateAvatar(data) {
-        api.changeProfileAvatar(data)
+        const jwt = localStorage.getItem('jwt');
+        api.changeProfileAvatar(data, jwt)
             .then((data) => {
                 setCurrentUser(data);
                 closeAllPopups();
@@ -86,7 +93,8 @@ function App() {
     }
 
     function handleAddPlaceSubmit(data) {
-        api.addNewCard(data)
+        const jwt = localStorage.getItem('jwt');
+        api.addNewCard(data, jwt)
             .then((newCard) => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
@@ -99,7 +107,8 @@ function App() {
     function handleCardLike(card) {
 
         const isLiked = card.likes.some(i => i._id === currentUser._id);
-        api.changeLikeCardStatus(card._id, !isLiked)
+        const jwt = localStorage.getItem('jwt');
+        api.changeLikeCardStatus(card._id, !isLiked, jwt)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
@@ -109,7 +118,8 @@ function App() {
     }
 
     function handleCardDelete(cardId) {
-        api.deleteCard(cardId)
+        const jwt = localStorage.getItem('jwt');
+        api.deleteCard(cardId, jwt)
             .then(() => {
                 setCards((cards) => cards.filter(card => card._id !== cardId));
             })
@@ -123,6 +133,7 @@ function App() {
             .authorize(data)
             .then((res) => {
                 localStorage.setItem('jwt', res.token);
+                handleTokenCheck();
                 setIsLoggedIn(true);
                 setUserEmail(data.email);
                 history.push('/');
@@ -176,7 +187,7 @@ function App() {
         }
     }, [isLoggedIn]);
 
-    useEffect(() => {
+    function handleTokenCheck() {
         const token = localStorage.getItem('jwt');
         if (token) {
             auth
@@ -191,7 +202,7 @@ function App() {
                     console.log(`Ошибка: ${err}`);
                 });
         }
-    }, [history]);
+    }
 
     return (
         <CurrentUser.Provider value={currentUser}>
