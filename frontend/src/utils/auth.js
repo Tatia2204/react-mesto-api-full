@@ -1,40 +1,44 @@
 export const BASE_URL = 'https://api.tanja2204.nomoredomains.icu';
 
-const checkResponse = (response) =>
-    response.ok ?
-        response.json()
-        : Promise.reject(new Error(`Ошибка ${response.status}: ${response.statusText}`));
-
-const headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
+function checkResponse(res) {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(res.status);
 }
 
 export const register = ({ email, password }) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
-        headers,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ email, password }),
     })
-        .then(res => checkResponse(res));
+        .then(checkResponse);
 };
 
 export const authorize = ({ email, password }) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
-        headers,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ email, password }),
     })
-        .then(res => checkResponse(res));
+        .then(checkResponse);
 };
 
-export const getContent = (token) => {
+export const getContent = (jwt) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
-          ...headers,
-            'Authorization' : `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
         },
     })
-        .then(res => checkResponse(res));
+        .then(checkResponse);
 };

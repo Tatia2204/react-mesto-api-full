@@ -12,57 +12,76 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
+    //проверка заголовка
+    _getHeaders() {
+        const jwt = localStorage.getItem('jwt');
+        return {
+            'Authorization': `Bearer ${jwt}`,
+            ...this._headers,
+        };
+    }
+
     //запрос инфы о профиле
     getProfileInfo() {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._headers
+            headers: this._getHeaders(),
         })
-            .then(this._checkResponse);
+            .then((res) => {
+                return this._checkResponse(res);
+            });
     }
 
     //загрузка карточек
     getInitialCards() {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._headers
+            headers: this._getHeaders(),
         })
-            .then(this._checkResponse);
+            .then((res) => {
+                return this._checkResponse(res);
+            });
     }
 
     //изменение инфы профеля
     changeProfileInfo(data) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: this._getHeaders(),
             body: JSON.stringify({
                 name: data.profileName,
                 about: data.profileProfession
             })
         })
-            .then(this._checkResponse);
+            .then((res) => {
+                return this._checkResponse(res);
+            });
     }
 
     //добавление новой карточки
     addNewCard(data) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: this._getHeaders(),
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
             })
         })
-            .then(this._checkResponse);
+            .then((res) => {
+                return this._checkResponse(res);
+            });
     }
 
     //удалить карточки
     deleteCard(_id) {
         return fetch(`${this._url}/cards/${_id}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: this._getHeaders(),
         })
-            .then(this._checkResponse);
+            .then((res) => {
+                return this._checkResponse(res);
+            });
     }
 
     //проверить лайк
@@ -71,15 +90,19 @@ class Api {
         if(isLiked) {
             return fetch(`${this._url}/cards/${_id}/likes`, {
                 method: 'PUT',
-                headers: this._headers
+                headers: this._getHeaders(),
             })
-                .then(this._checkResponse);
+                .then((res) => {
+                    return this._checkResponse(res);
+                });
         } else {
             return fetch(`${this._url}/cards/${_id}/likes`, {
                 method: 'DELETE',
-                headers: this._headers
+                headers: this._getHeaders(),
             })
-                .then(this._checkResponse);
+                .then((res) => {
+                    return this._checkResponse(res);
+                });
         }
     }
 
@@ -87,12 +110,14 @@ class Api {
     changeProfileAvatar(data) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: this._getHeaders(),
             body: JSON.stringify({
                 avatar: data.avatar
             })
         })
-            .then(this._checkResponse);
+            .then((res) => {
+                return this._checkResponse(res);
+            });
     }
 }
 
