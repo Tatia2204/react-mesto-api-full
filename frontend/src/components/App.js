@@ -139,7 +139,7 @@ function App() {
             .then(() => {
                 setIsRegister(true);
                 handleInfoTooltip();
-                history.push('/signin');
+                history.push('/sign-in');
             })
             .catch((err) => {
                 console.log(err);
@@ -151,7 +151,7 @@ function App() {
     function handleLogout() {
         setIsLoggedIn(false);
         localStorage.removeItem('jwt');
-        history.push('/signin');
+        history.push('/sign-in');
     }
 
 
@@ -199,10 +199,10 @@ function App() {
             <div className="page">
                 <Header loggedIn={isLoggedIn} userEmail={userEmail} onLogout={handleLogout} onRegister={isRegister}/>
                 <Switch>
-                    <Route path="/signup">
+                    <Route path="/sign-up">
                         <Register onRegister={handleRegister} />
                     </Route>
-                    <Route path="/signin">
+                    <Route path="/sign-in">
                         <Login onLogin={handleAuthorization}/>
                     </Route>
                     <ProtectedRoute
