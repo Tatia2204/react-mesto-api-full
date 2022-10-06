@@ -12,112 +12,111 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    //проверка заголовка
-    _getHeaders() {
-        const jwt = localStorage.getItem('jwt');
-        return {
-            'Authorization': `Bearer ${jwt}`,
-            ...this._headers,
-        };
-    }
-
     //запрос инфы о профиле
-    getProfileInfo() {
+    getProfileInfo(jwt) {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._getHeaders(),
+            headers:  {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
-            .then((res) => {
-                return this._checkResponse(res);
-            });
+            .then((res) => this._checkResponse(res));
     }
 
     //загрузка карточек
-    getInitialCards() {
+    getInitialCards(jwt) {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._getHeaders(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
-            .then((res) => {
-                return this._checkResponse(res);
-            });
+            .then((res) => this._checkResponse(res));
     }
 
     //изменение инфы профеля
-    changeProfileInfo(data) {
+    changeProfileInfo(data, jwt) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._getHeaders(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
             body: JSON.stringify({
                 name: data.profileName,
                 about: data.profileProfession
             })
         })
-            .then((res) => {
-                return this._checkResponse(res);
-            });
+            .then((res) => this._checkResponse(res));
     }
 
     //добавление новой карточки
-    addNewCard(data) {
+    addNewCard(data, jwt) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._getHeaders(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
             })
         })
-            .then((res) => {
-                return this._checkResponse(res);
-            });
+            .then((res) => this._checkResponse(res));
     }
 
     //удалить карточки
-    deleteCard(_id) {
+    deleteCard(_id, jwt) {
         return fetch(`${this._url}/cards/${_id}`, {
             method: 'DELETE',
-            headers: this._getHeaders(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
-            .then((res) => {
-                return this._checkResponse(res);
-            });
+            .then((res) => this._checkResponse(res));
     }
 
     //проверить лайк
-    changeLikeCardStatus(_id, isLiked) {
+    changeLikeCardStatus(_id, isLiked, jwt) {
 
         if(isLiked) {
             return fetch(`${this._url}/cards/${_id}/likes`, {
                 method: 'PUT',
-                headers: this._getHeaders(),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`,
+                }
             })
-                .then((res) => {
-                    return this._checkResponse(res);
-                });
+                .then((res) => this._checkResponse(res));
         } else {
             return fetch(`${this._url}/cards/${_id}/likes`, {
                 method: 'DELETE',
-                headers: this._getHeaders(),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`,
+                }
             })
-                .then((res) => {
-                    return this._checkResponse(res);
-                });
+                .then((res) => this._checkResponse(res));
         }
     }
 
     //изменение аватара профеля
-    changeProfileAvatar(data) {
+    changeProfileAvatar(data, jwt) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._getHeaders(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
             body: JSON.stringify({
                 avatar: data.avatar
             })
         })
-            .then((res) => {
-                return this._checkResponse(res);
-            });
+            .then((res) => this._checkResponse(res));
     }
 }
 
@@ -125,6 +124,7 @@ const api = new Api({
     baseUrl: 'https://api.tanja2204.nomoredomains.icu',
     headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     }
 });
 

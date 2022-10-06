@@ -7,38 +7,36 @@ function checkResponse(res) {
     return Promise.reject(res.status);
 }
 
+const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+};
+
 export const register = ({ email, password }) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(checkResponse);
+        .then((res) => checkResponse(res));
 };
 
 export const authorize = ({ email, password }) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(checkResponse);
+        .then((res) => checkResponse(res));
 };
 
-export const getContent = (jwt) => {
+export const getContent = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`,
+            ...headers,
+            Authorization: `Bearer ${token}`,
         },
     })
-        .then(checkResponse);
+        .then((res) => checkResponse(res));
 };
