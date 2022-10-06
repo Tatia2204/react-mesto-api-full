@@ -12,20 +12,11 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    //получить заголовки
-    _getHeaders() {
-        const jwt = localStorage.getItem('jwt');
-        return {
-            'Authorization': `Bearer ${jwt}`,
-            ...this._headers,
-        };
-    }
-
     //запрос инфы о профиле
     getProfileInfo() {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._getHeaders(),
+            headers: this._headers
         })
             .then(this._checkResponse);
     }
@@ -34,7 +25,7 @@ class Api {
     getInitialCards() {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._getHeaders(),
+            headers: this._headers
         })
             .then(this._checkResponse);
     }
@@ -43,7 +34,7 @@ class Api {
     changeProfileInfo(data) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._getHeaders(),
+            headers: this._headers,
             body: JSON.stringify({
                 name: data.profileName,
                 about: data.profileProfession
@@ -56,7 +47,7 @@ class Api {
     addNewCard(data) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._getHeaders(),
+            headers: this._headers,
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -69,7 +60,7 @@ class Api {
     deleteCard(_id) {
         return fetch(`${this._url}/cards/${_id}`, {
             method: 'DELETE',
-            headers: this._getHeaders(),
+            headers: this._headers
         })
             .then(this._checkResponse);
     }
@@ -80,13 +71,13 @@ class Api {
         if(isLiked) {
             return fetch(`${this._url}/cards/${_id}/likes`, {
                 method: 'PUT',
-                headers: this._getHeaders(),
+                headers: this._headers
             })
                 .then(this._checkResponse);
         } else {
             return fetch(`${this._url}/cards/${_id}/likes`, {
                 method: 'DELETE',
-                headers: this._getHeaders(),
+                headers: this._headers
             })
                 .then(this._checkResponse);
         }
@@ -96,7 +87,7 @@ class Api {
     changeProfileAvatar(data) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._getHeaders(),
+            headers: this._headers,
             body: JSON.stringify({
                 avatar: data.avatar
             })
@@ -109,7 +100,7 @@ const api = new Api({
     baseUrl: 'https://api.tanja2204.nomoredomains.icu',
     headers: {
         'Content-Type': 'application/json',
-    },
+    }
 });
 
 export default api;
