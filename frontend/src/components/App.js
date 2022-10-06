@@ -159,49 +159,61 @@ function App() {
             });
     }
 
-    function handleLogout() {
-        setIsLoggedIn(false);
-        localStorage.removeItem('jwt');
-        history.push('/sign-in');
-    }
-
-
-    useEffect(() => {
-        if (isLoggedIn === true) {
-            api
-                .getProfileInfo()
-                .then((data) => {
-                    setCurrentUser(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка: ${err}`);
-                });
-            api
-                .getInitialCards()
-                .then((data) => {
-                    setCards(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка: ${err}`);
-                });
-        }
-    }, [isLoggedIn]);
+    // useEffect(() => {
+    //     if (isLoggedIn === true) {
+    //         api
+    //             .getProfileInfo()
+    //             .then((data) => {
+    //                 setCurrentUser(data);
+    //             })
+    //             .catch((err) => {
+    //                 console.log(`Ошибка: ${err}`);
+    //             });
+    //         api
+    //             .getInitialCards()
+    //             .then((data) => {
+    //                 setCards(data);
+    //             })
+    //             .catch((err) => {
+    //                 console.log(`Ошибка: ${err}`);
+    //             });
+    //     }
+    // }, [isLoggedIn]);
 
     function handleTokenCheck() {
-        const token = localStorage.getItem('jwt');
-        if (token) {
-            auth
-                .getContent(token)
-                .then((res) => {
-                    setUserEmail(res.data.email);
-                    setIsLoggedIn(true);
-                    history.push('/');
-                })
-                .catch((err) => {
-                    localStorage.removeItem('jwt');
-                    console.log(`Ошибка: ${err}`);
-                });
+        const jwt = localStorage.getItem('jwt');
+        if (!jwt) {
+            return;
         }
+        auth
+            .getContent(jwt)
+            .then((data) => {
+                setUserEmail(data.email);
+                setCurrentUser(data)
+                setIsLoggedIn(true);
+                history.push('/');
+            })
+            .catch((err) => console.log(err));
+        api
+            .getInitialCards(jwt)
+            .then((res) => {
+                setCards(res.data)
+            })
+            .catch((err) => console.log(err));
+    }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            history.push('/');
+        }
+    }, [isLoggedIn, history]);
+
+    function handleLogout() {
+        localStorage.removeItem('jwt');
+        history.push('/sign-in');
+        setIsLoggedIn(false);
+        setCurrentUser({});
+        setUserEmail('');
     }
 
     return (

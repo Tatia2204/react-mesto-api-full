@@ -8,7 +8,7 @@ function checkResponse(res) {
 }
 
 const headers = {
-    Accept: 'application/json',
+    'Accept': 'application/json',
     'Content-Type': 'application/json',
 };
 
@@ -35,7 +35,7 @@ export const getContent = (token) => {
         method: 'GET',
         headers: {
             ...headers,
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
         },
     })
         .then((res) => checkResponse(res));
