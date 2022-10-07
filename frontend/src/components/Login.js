@@ -50,7 +50,7 @@ function Login({ onLogin }) {
                 />
             </form>
             <div className="website__button-container">
-                <button type="submit" className="website__link" onSubmit={handleSubmit}>Войти</button>
+                <button type="submit" className="website__link" onClick={handleSubmit}>Войти</button>
             </div>
         </div>
     )
