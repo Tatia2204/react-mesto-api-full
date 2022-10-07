@@ -17,15 +17,16 @@ function Login({ onLogin }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onLogin(loginData)
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
+        onLogin(loginData);
+        console.log(loginData);
+            // .catch((err) => {
+            //     console.log(`Ошибка: ${err}`);
+            // });
     }
 
     return (
         <div className="website">
-            <form className="website__form" >
+            <form className="website__form" onSubmit={handleSubmit}>
                 <h1 className="website__title">Вход</h1>
                 <input type="email"
                        id="email"
@@ -49,7 +50,7 @@ function Login({ onLogin }) {
                 />
             </form>
             <div className="website__button-container">
-                <button type="submit" className="website__link" onClick={handleSubmit} >Войти</button>
+                <button type="submit" className="website__link" >Войти</button>
             </div>
         </div>
     )
