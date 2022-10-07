@@ -26,7 +26,7 @@ function Login({ onLogin }) {
 
     return (
         <div className="website">
-            <form className="website__form" onSubmit={handleSubmit}>
+            <form className="website__form" >
                 <h1 className="website__title">Вход</h1>
                 <input type="email"
                        id="email"
@@ -50,7 +50,7 @@ function Login({ onLogin }) {
                 />
             </form>
             <div className="website__button-container">
-                <button type="submit" className="website__link" >Войти</button>
+                <button type="submit" className="website__link" onSubmit={handleSubmit}>Войти</button>
             </div>
         </div>
     )
