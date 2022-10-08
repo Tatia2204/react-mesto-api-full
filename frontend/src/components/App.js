@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Route, Switch, useNavigate } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from "./Footer.js";
@@ -28,7 +28,7 @@ function App() {
     const [isRegister, setIsRegister] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('');
-    const navigate = useNavigate();
+    const history = useHistory();
 
     useEffect(() => {
         const token = localStorage.getItem('jwt');
@@ -49,7 +49,7 @@ function App() {
 
     useEffect(() => {
         if (isLoggedIn === true) {
-            navigate("/");
+            history.push("/");
         }
     }, [isLoggedIn, navigate]);
 
@@ -98,7 +98,7 @@ function App() {
     }
 
     function handleUpdateAvatar(data) {
-        api.changeProfileAvatar(data, jwt)
+        api.changeProfileAvatar(data)
             .then((data) => {
                 setCurrentUser(data);
                 closeAllPopups();
@@ -148,7 +148,7 @@ function App() {
                 localStorage.setItem('jwt', res.token);
                 setIsLoggedIn(true);
                 setUserEmail(data.email);
-                navigate('/');
+                history.push('/');
             })
             .catch((err) => {
                 console.log(err);
@@ -162,7 +162,7 @@ function App() {
             .then(() => {
                 setIsRegister(true);
                 handleInfoTooltip();
-                navigate('/sign-in');
+                history.push('/sign-in');
             })
             .catch((err) => {
                 console.log(err);
@@ -174,7 +174,7 @@ function App() {
     function handleLogout() {
         setIsLoggedIn(false);
         localStorage.removeItem('jwt');
-        navigate('/sign-in');
+        history.push('/sign-in');
     }
 
 
