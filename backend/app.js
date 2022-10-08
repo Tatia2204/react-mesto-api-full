@@ -12,6 +12,9 @@ const routes = require('./routes');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+mongoose.connect('mongodb://localhost:27017/mestodb');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -19,7 +22,7 @@ app.use(cors({
   origin: 'https://tanja2204.nomoredomains.icu',
 }));
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
+app.use(requestLogger);
 
 app.use(helmet());
 app.disable('x-powered-by');
@@ -29,8 +32,6 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
-app.use(requestLogger);
 
 app.use(routes);
 
