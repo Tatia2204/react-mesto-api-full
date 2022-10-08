@@ -30,6 +30,140 @@ function App() {
     const [userEmail, setUserEmail] = React.useState('');
     const history = useHistory();
 
+    useEffect(() => {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            auth
+                .getContent(token)
+                .then((res) => {
+                    setUserEmail(res.data.email);
+                    setIsLoggedIn(true);
+                })
+                .catch((err) => {
+                    console.log(`Не удалось получить токен: ${err}`);
+                });
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isLoggedIn === true) {
+            history.push('/');
+        }
+    }, [isLoggedIn, history]);
+
+    function handleRegister(data) {
+        auth
+            .register(data)
+            .then(() => {
+                setIsRegister(true);
+                handleInfoTooltip();
+                history.push('/sign-in');
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsRegister(false);
+                handleInfoTooltip();
+            });
+    }
+
+    function handleAuthorization(data) {
+        auth
+            .authorize(data)
+            .then((res) => {
+                localStorage.setItem('jwt', res.token);
+                setIsLoggedIn(true);
+                setUserEmail(data.email);
+                history.push('/');
+            })
+            .catch(() => {
+                console.log('Неправильная почта или пароль');
+                handleInfoTooltip();
+            });
+    }
+
+    useEffect(() => {
+        if (isLoggedIn === true) {
+            api
+                .getProfileInfo()
+                .then((data) => {
+                    setCurrentUser(data);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка авторизации: ${err}`);
+                    handleInfoTooltip();
+                });
+            api
+                .getInitialCards()
+                .then((data) => {
+                    setCards(data);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка авторизации: ${err}`);
+                    handleInfoTooltip();
+                });
+        }
+    }, [isLoggedIn]);
+
+    function handleCardLike(card) {
+
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            })
+            .catch((err) => {
+                console.log(`Ошибка: ${err}`);
+                handleInfoTooltip();
+            });
+    }
+
+    function handleAddPlaceSubmit(data) {
+        api.addNewCard(data)
+            .then((newCard) => {
+                setCards([newCard, ...cards]);
+                closeAllPopups();
+            })
+            .catch((err) => {
+                console.log(`Не удалось создать карточку: ${err}`);
+                handleInfoTooltip();
+            });
+    }
+
+    function handleUpdateUser(newProfileInfo) {
+        api.changeProfileInfo(newProfileInfo)
+            .then((data) => {
+                setCurrentUser(data);
+                closeAllPopups();
+            })
+            .catch((err) => {
+                console.log(`Не удалось обновить профиль: ${err}`);
+                handleInfoTooltip();
+            });
+    }
+
+    function handleCardDelete(cardId) {
+        api.deleteCard(cardId)
+            .then(() => {
+                setCards((cards) => cards.filter(card => card._id !== cardId));
+            })
+            .catch((err) => {
+                console.log(`Не удалось удалить карточку: ${err}`);
+                handleInfoTooltip();
+            });
+    }
+
+    function handleUpdateAvatar(data) {
+        api.changeProfileAvatar(data)
+            .then((data) => {
+                setCurrentUser(data);
+                closeAllPopups();
+            })
+            .catch((err) => {
+                console.log(`Не удалось обновить аватар: ${err}`);
+                handleInfoTooltip();
+            });
+    }
+
     function handleEditAvatarHandler() {
         setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
     }
@@ -63,135 +197,11 @@ function App() {
         setSelectedCard(card);
     }
 
-    function handleUpdateUser(newProfileInfo) {
-        api.changeProfileInfo(newProfileInfo)
-            .then((data) => {
-                setCurrentUser(data);
-                closeAllPopups();
-            })
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
-    }
-
-    function handleUpdateAvatar(data) {
-        api.changeProfileAvatar(data)
-            .then((data) => {
-                setCurrentUser(data);
-                closeAllPopups();
-            })
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
-    }
-
-    function handleAddPlaceSubmit(data) {
-        api.addNewCard(data)
-            .then((newCard) => {
-                setCards([newCard, ...cards]);
-                closeAllPopups();
-            })
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
-    };
-
-    function handleCardLike(card) {
-
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-        api.changeLikeCardStatus(card._id, !isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            })
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
-    }
-
-    function handleCardDelete(cardId) {
-        api.deleteCard(cardId)
-            .then(() => {
-                setCards((cards) => cards.filter(card => card._id !== cardId));
-            })
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
-    }
-
-    function handleAuthorization(data) {
-        auth
-            .authorize(data)
-            .then((res) => {
-                localStorage.setItem('jwt', res.token);
-                setIsLoggedIn(true);
-                setUserEmail(data.email);
-                history.push('/');
-            })
-            .catch((err) => {
-                console.log(err);
-                handleInfoTooltip();
-            });
-    }
-
-    function handleRegister(data) {
-        return auth
-            .register(data)
-            .then(() => {
-                setIsRegister(true);
-                handleInfoTooltip();
-                history.push('/sign-in');
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsRegister(false);
-                handleInfoTooltip();
-            });
-    }
-
     function handleLogout() {
         setIsLoggedIn(false);
         localStorage.removeItem('jwt');
         history.push('/sign-in');
     }
-
-
-    useEffect(() => {
-        if (isLoggedIn === true) {
-            api
-                .getProfileInfo()
-                .then((data) => {
-                    setCurrentUser(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка: ${err}`);
-                });
-            api
-                .getInitialCards()
-                .then((data) => {
-                    setCards(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка: ${err}`);
-                });
-        }
-    }, [isLoggedIn]);
-
-    useEffect(() => {
-        const token = localStorage.getItem('jwt');
-        if (token) {
-            auth
-                .getContent(token)
-                .then((res) => {
-                    setUserEmail(res.data.email);
-                    setIsLoggedIn(true);
-                    history.push('/');
-                })
-                .catch((err) => {
-                    localStorage.removeItem('jwt');
-                    console.log(`Ошибка: ${err}`);
-                });
-        }
-    }, [history]);
 
     return (
         <CurrentUser.Provider value={currentUser}>
