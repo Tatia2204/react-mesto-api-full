@@ -30,29 +30,6 @@ function App() {
     const [userEmail, setUserEmail] = React.useState('');
     const history = useHistory();
 
-    useEffect(() => {
-        const token = localStorage.getItem('jwt');
-        if (token) {
-            auth
-                .getContent(token)
-                .then((res) => {
-                    if (res) {
-                        setIsLoggedIn(true);
-                        setUserEmail(res.data.email);
-                    }
-                })
-                .catch((err) => {
-                    console.log(`Не удалось получить токен: ${err}`);
-                });
-        }
-    }, []);
-
-    useEffect(() => {
-        if (isLoggedIn === true) {
-            history.push("/");
-        }
-    }, [isLoggedIn, history]);
-
     function handleEditAvatarHandler() {
         setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
     }
@@ -120,8 +97,8 @@ function App() {
     };
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
 
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -142,7 +119,7 @@ function App() {
     }
 
     function handleAuthorization(data) {
-        return auth
+        auth
             .authorize(data)
             .then((res) => {
                 localStorage.setItem('jwt', res.token);
@@ -198,6 +175,23 @@ function App() {
                 });
         }
     }, [isLoggedIn]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            auth
+                .getContent(token)
+                .then((res) => {
+                    setUserEmail(res.data.email);
+                    setIsLoggedIn(true);
+                    history.push('/');
+                })
+                .catch((err) => {
+                    localStorage.removeItem('jwt');
+                    console.log(`Ошибка: ${err}`);
+                });
+        }
+    }, [history]);
 
     return (
         <CurrentUser.Provider value={currentUser}>
