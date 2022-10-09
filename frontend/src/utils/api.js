@@ -45,8 +45,8 @@ class Api {
             method: 'PATCH',
             headers: this._getHeaders(),
             body: JSON.stringify({
-                name: data.profile_name,
-                about: data.profile_job,
+                name: data.profileName,
+                about: data.profileProfession
             }),
         }).then((res) => {
             return this._handleRes(res);
@@ -54,13 +54,13 @@ class Api {
     }
 
     //добавление новой карточки
-    addNewCard(user) {
+    addNewCard(data) {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._getHeaders(),
             body: JSON.stringify({
-                name: user.name,
-                link: user.link,
+                name: data.name,
+                link: data.link,
             }),
         }).then((res) => {
             return this._handleRes(res);

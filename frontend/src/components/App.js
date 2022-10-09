@@ -30,80 +30,6 @@ function App() {
     const [userEmail, setUserEmail] = React.useState('');
     const history = useHistory();
 
-    useEffect(() => {
-        const jwt = localStorage.getItem("jwt");
-        if (jwt) {
-            auth
-                .getContent(jwt)
-                .then((res) => {
-                    if (res) {
-                        setUserEmail(res.data.email);
-                        setIsLoggedIn(true);
-                    }
-                })
-                .catch((err) => {
-                    console.log(`Не удалось получить токен: ${err}`);
-                });
-        }
-    }, []);
-
-    useEffect(() => {
-        if (isLoggedIn === true) {
-            history.push('/');
-        }
-    }, [isLoggedIn, history]);
-
-    function handleRegister(data) {
-        auth
-            .register(data)
-            .then(() => {
-                setIsRegister(true);
-                handleInfoTooltip();
-                history.push('/sign-in');
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsRegister(false);
-                handleInfoTooltip();
-            });
-    }
-
-    function handleAuthorization(data) {
-        auth
-            .authorize(data)
-            .then((res) => {
-                localStorage.setItem('jwt', res.token);
-                setIsLoggedIn(true);
-                setUserEmail(data.email);
-                history.push('/');
-            })
-            .catch((err) => {
-                console.log(err);
-                handleInfoTooltip();
-            });
-    }
-
-    useEffect(() => {
-        if (isLoggedIn === true) {
-            api
-                .getProfileInfo()
-                .then((data) => {
-                    setCurrentUser(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка авторизации: ${err}`);
-                });
-            api
-                .getInitialCards()
-                .then((data) => {
-                    setCards(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка авторизации: ${err}`);
-                });
-        }
-    }, [isLoggedIn]);
-
     function handleEditAvatarHandler() {
         setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
     }
@@ -192,11 +118,80 @@ function App() {
             });
     }
 
+    function handleAuthorization(data) {
+        auth
+            .authorize(data)
+            .then((res) => {
+                localStorage.setItem('jwt', res.token);
+                setIsLoggedIn(true);
+                setUserEmail(data.email);
+                history.push('/');
+            })
+            .catch((err) => {
+                console.log(err);
+                handleInfoTooltip();
+            });
+    }
+
+    function handleRegister(data) {
+        return auth
+            .register(data)
+            .then(() => {
+                setIsRegister(true);
+                handleInfoTooltip();
+                history.push('/sign-in');
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsRegister(false);
+                handleInfoTooltip();
+            });
+    }
+
     function handleLogout() {
         setIsLoggedIn(false);
         localStorage.removeItem('jwt');
         history.push('/sign-in');
     }
+
+
+    useEffect(() => {
+        if (isLoggedIn === true) {
+            api
+                .getProfileInfo()
+                .then((data) => {
+                    setCurrentUser(data);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка: ${err}`);
+                });
+            api
+                .getInitialCards()
+                .then((data) => {
+                    setCards(data);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка: ${err}`);
+                });
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            auth
+                .getContent(token)
+                .then((res) => {
+                    setUserEmail(res.data.email);
+                    setIsLoggedIn(true);
+                    history.push('/');
+                })
+                .catch((err) => {
+                    localStorage.removeItem('jwt');
+                    console.log(`Ошибка: ${err}`);
+                });
+        }
+    }, [history]);
 
     return (
         <CurrentUser.Provider value={currentUser}>
