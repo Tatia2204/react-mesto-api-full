@@ -2,10 +2,8 @@ import React, { useContext } from "react";
 import Card from "./Card.js"
 import { CurrentUser } from "../contexts/CurrentUser.js";
 
-function Main ({cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick,
-                   onCardLike, onCardDelete }) {
+function Main (props) {
     const currentUser = useContext(CurrentUser);
-    const { name, about, avatar } = currentUser;
 
     return (
         <main className="content" >
@@ -14,35 +12,35 @@ function Main ({cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick,
                     <button
                         aria-label="Поменять аватар"
                         className="profile__avatar-button"
-                        onClick={onEditAvatar}>
+                        onClick={props.onEditAvatar}>
                     </button>
-                    <img src={avatar} alt="фото" className="profile__avatar"/>
+                    <img src={currentUser.avatar} alt="фото" className="profile__avatar"/>
                 </div>
                 <div className="profile__info">
-                    <h1 className="profile__name">{name}</h1>
+                    <h1 className="profile__name">{currentUser.name}</h1>
                     <button
                         aria-label="Перейти к изменению профеля"
                         className="link profile__info-edit"
                         type="button"
-                        onClick={onEditProfile}>
+                        onClick={props.onEditProfile}>
                     </button>
-                    <p className="profile__profession">{about}</p>
+                    <p className="profile__profession">{currentUser.about}</p>
                 </div>
                 <button
                     aria-label="Перейти к добавлению информации"
                     className="link profile__info-add"
                     type="button"
-                    onClick={onAddPlace}>
+                    onClick={props.onAddPlace}>
                 </button>
             </section>
 
             <section className="elements">
-                {cards.map((card) => (
-                    <Card key={card._id}
+                {props.cards.map((card, id) => (
+                    <Card key={id}
                           card={card}
-                          onCardClick={onCardClick}
-                          onCardLike={onCardLike}
-                          onCardDelete={onCardDelete}
+                          onCardClick={props.onCardClick}
+                          onCardLike={props.onCardLike}
+                          onCardDelete={props.onCardDelete}
                     />
                 ))}
             </section>
