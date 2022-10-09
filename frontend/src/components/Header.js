@@ -10,17 +10,17 @@ function Header({ userEmail, loggedIn, onLogout, onRegister  }) {
                 {location.pathname === "/" ? (
                     <div className="header__group">
                         <h2 className="header__email">{userEmail}</h2>
-                        <Link className="link header__link" to="/sign-in" onClick={onLogout} >Выйти</Link>
+                        <Link className="link header__link" to="/signin" onClick={onLogout} >Выйти</Link>
                     </div>
                     ) : null}
-                {location.pathname === "/sign-up" ? (
+                {location.pathname === "/signup" ? (
                     <div className="header__group">
-                        <Link className="link header__link header__link_register" to="sign-in" loggedIn={loggedIn}>Войти</Link>
+                        <Link className="link header__link header__link_register" to="signin" loggedIn={loggedIn}>Войти</Link>
                     </div>
                      ) : null}
-                {location.pathname === "/sign-in" ? (
+                {location.pathname === "/signin" ? (
                     <div className="header__group">
-                        <Link className="link header__link header__link_register" to="sign-up" onRegister={onRegister}>Регистрация</Link>
+                        <Link className="link header__link header__link_register" to="signup" onRegister={onRegister}>Регистрация</Link>
                     </div>
                     ) : null}
         </header>
