@@ -55,7 +55,7 @@ function Register({ onRegister }) {
             </form>
             <div className="website__button-container">
                 <button type="submit" className="website__link" onClick={handleSubmit} >Зарегистрироваться</button>
-                <Link className="link website__logout" to="/signin">Уже зарегистрированы? Войти</Link>
+                <Link className="link website__logout" to="/sign-in">Уже зарегистрированы? Войти</Link>
             </div>
         </div>
     )
