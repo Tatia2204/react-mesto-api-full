@@ -85,14 +85,21 @@ function App() {
 
     useEffect(() => {
         if (isLoggedIn === true) {
-            Promise.all([api.getProfileInfo(), api.getInitialCards()])
+            api
+                .getProfileInfo()
                 .then((data) => {
                     setCurrentUser(data);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка авторизации: ${err}`);
+                });
+            api
+                .getInitialCards()
+                .then((data) => {
                     setCards(data);
                 })
                 .catch((err) => {
                     console.log(`Ошибка авторизации: ${err}`);
-                    handleInfoTooltip();
                 });
         }
     }, [isLoggedIn]);
