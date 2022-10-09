@@ -15,7 +15,6 @@ function Card({card, onCardClick, onCardLike, onCardClickDelete, onCardDelete}) 
 
     function handleDeleteClick () {
         onCardClickDelete(card._id);
-
     }
 
     function handleDeleteCard () {
