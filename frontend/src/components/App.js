@@ -8,15 +8,15 @@ import Main from "./Main";
 import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
 import AddPlacePopup from "./AddPlacePopup";
-// import DeleteCardPopup from "./DeleteCardPopup";
+import DeleteCardPopup from "./DeleteCardPopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
-import resolve from "../images/resolve.svg";
-import reject from "../images/reject.svg";
+import success from "../images/success.svg";
+import refusal from "../images/refusal.svg";
 
 function App() {
     const navigate = useNavigate();
@@ -58,12 +58,12 @@ function App() {
 
     function onRegister(email, password) {
         auth.registerUser(email, password).then(() => {
-            setPopupImage(resolve);
+            setPopupImage(success);
             setPopupTitle("Вы успешно зарегистрировались!");
             navigate("/signin");
         }).catch(() => {
             closeAllPopups();
-            setPopupImage(reject);
+            setPopupImage(refusal);
             setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.");
         }).finally(handleInfoTooltip);
     }
@@ -76,7 +76,7 @@ function App() {
             navigate("/");
         }).catch(() => {
             closeAllPopups();
-            setPopupImage(reject);
+            setPopupImage(refusal);
             setPopupTitle("Неправильная почта или пароль.");
             handleInfoTooltip();
         });
@@ -91,7 +91,7 @@ function App() {
                 })
                 .catch(() => {
                     closeAllPopups();
-                    setPopupImage(reject);
+                    setPopupImage(refusal);
                     setPopupTitle("Что-то пошло не так! Ошибка авторизации.");
                     handleInfoTooltip();
                 });
@@ -106,7 +106,7 @@ function App() {
                 setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
             }).catch(() => {
                 closeAllPopups();
-                setPopupImage(reject);
+                setPopupImage(refusal);
                 setPopupTitle("Что-то пошло не так! Не удалось поставить лайк.");
                 handleInfoTooltip();
             });
@@ -115,7 +115,7 @@ function App() {
                 setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
             }).catch(() => {
                 closeAllPopups();
-                setPopupImage(reject);
+                setPopupImage(refusal);
                 setPopupTitle("Что-то пошло не так! Не удалось снять лайк.");
                 handleInfoTooltip();
             });
@@ -127,7 +127,7 @@ function App() {
             setCurrentUser(newUser);
             closeAllPopups();
         }).catch(() => {
-            setPopupImage(reject);
+            setPopupImage(refusal);
             setPopupTitle("Что-то пошло не так! Не удалось обновить профиль.");
             handleInfoTooltip();
         });
@@ -139,7 +139,7 @@ function App() {
             closeAllPopups();
         }).catch(() => {
             closeAllPopups();
-            setPopupImage(reject);
+            setPopupImage(refusal);
             setPopupTitle("Что-то пошло не так! Не удалось создать карточку.");
             handleInfoTooltip();
         });
@@ -151,7 +151,7 @@ function App() {
             closeAllPopups();
         }).catch(() => {
             closeAllPopups();
-            setPopupImage(reject);
+            setPopupImage(refusal);
             setPopupTitle("Что-то пошло не так! Не удалось удалить карточку.");
             handleInfoTooltip();
         });
@@ -163,7 +163,7 @@ function App() {
             closeAllPopups();
         }).catch(() => {
             closeAllPopups();
-            setPopupImage(reject);
+            setPopupImage(refusal);
             setPopupTitle("Что-то пошло не так! Не удалось обновить аватар.");
             handleInfoTooltip();
         });
