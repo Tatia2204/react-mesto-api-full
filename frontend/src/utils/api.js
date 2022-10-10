@@ -22,7 +22,7 @@ class Api {
     }
 
     //запрос инфы о профиле
-    getProfileInfo() {
+    getUserInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._getHeaders(),
         }).then((res) => {
@@ -40,13 +40,13 @@ class Api {
     }
 
     //изменение инфы профеля
-    changeProfileInfo(data) {
+    updateUserInfo(data) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._getHeaders(),
             body: JSON.stringify({
                 name: data.profileName,
-                about: data.profileProfession
+                about: data.profileProfession,
             }),
         }).then((res) => {
             return this._handleRes(res);
@@ -68,7 +68,7 @@ class Api {
     }
 
     //удалить карточки
-    deleteCard(data) {
+    removeCard(data) {
         return fetch(`${this._baseUrl}/cards/${data._id}`, {
             method: 'DELETE',
             headers: this._getHeaders(),
@@ -78,37 +78,37 @@ class Api {
     }
 
     //проверить лайк
-    changeLikeCardStatus(_id, isLiked) {
-        if (isLiked) {
-            return fetch(`${this._url}/cards/${_id}/likes`, {
-                method: 'PUT',
-                headers: this._getHeaders(),
-            }).then((res) => {
-                return this._handleRes(res);
-            });
-        } else {
-            return fetch(`${this._url}/cards/${_id}/likes`, {
-                method: 'DELETE',
-                headers: this._getHeaders(),
-            }).then((res) => {
-                return this._handleRes(res);
-            });
-        }
+    addCardLike(id) {
+        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+            method: 'PUT',
+            headers: this._getHeaders(),
+        }).then((res) => {
+            return this._handleRes(res);
+        });
+    }
+
+    deleteCardLike(id) {
+        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+            method: 'DELETE',
+            headers: this._getHeaders(),
+        }).then((res) => {
+            return this._handleRes(res);
+        });
     }
 
     //изменение аватара профеля
-    changeProfileAvatar(data) {
-            return fetch(`${this._baseUrl}/users/me/avatar`, {
-                method: 'PATCH',
-                headers: this._getHeaders(),
-                body: JSON.stringify({
-                    avatar: data.avatar,
-                }),
-            }).then((res) => {
-                return this._handleRes(res);
-            });
-        }
+    updateProfileAvatar(data) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._getHeaders(),
+            body: JSON.stringify({
+                avatar: data.avatar,
+            }),
+        }).then((res) => {
+            return this._handleRes(res);
+        });
     }
+}
 
 const api = new Api({
     baseUrl: 'https://api.tanja2204.nomoredomains.icu',

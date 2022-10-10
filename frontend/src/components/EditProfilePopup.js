@@ -1,25 +1,26 @@
-import React, {useContext, useState} from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import {CurrentUser} from "../contexts/CurrentUser";
+import { CurrentUserContext } from "../contexts/CurrentUser";
 
-function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
-
-    const currentUser = useContext(CurrentUser);
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+function EditProfilePopup(props) {
+    const [name, setName] = React.useState('');
+    const [description, setDescription] = React.useState('');
+    const currentUser = React.useContext(CurrentUserContext);
 
     function handleSubmit (evt) {
         evt.preventDefault();
-        onUpdateUser({
+        props.onSubmit({
             profileName: name,
             profileProfession: description
         })
-    };
+    }
 
     React.useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
-    }, [currentUser, isOpen]);
+        if (props.isOpen) {
+            setName(currentUser.name);
+            setDescription(currentUser.about);
+        }
+    }, [props.isOpen, currentUser]);
 
     function handleChangeName(e) {
         setName(e.target.value);
@@ -32,12 +33,14 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
     return (
         <PopupWithForm
             popup="profile"
-            isOpen={isOpen}
-            onClose={onClose}
+            isOpen={props.isOpen}
+            onCloseClick={props.onCloseClick}
+            onClose={props.onClose}
+            name={'edit'}
+            form={'profileData'}
+            title={'Редактировать профиль'}
+            buttonText={'Сохранить'}
             onSubmit={handleSubmit}
-            name="formProfile"
-            title="Редактировать профиль"
-            text="Сохранить"
         >
             <label className="popup__indent">
                 <input type="text"
@@ -48,7 +51,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
                        placeholder="Имя"
                        name="profileName"
                        className="popup__element popup__element_profile popup__element_add_name"
-                       value={name || ''}
+                       value={name}
                        onChange={handleChangeName}
                 />
                 <span className="popup__error" id="profileName-input-error"></span>
@@ -62,7 +65,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
                        placeholder="Профессия"
                        name="profileProfession"
                        className="popup__element popup__element_profile popup__element_add_profession"
-                       value={description || ''}
+                       value={description}
                        onChange={handleChangeDescription}
                 />
                 <span className="popup__error" id="profileProfession-input-error"></span>

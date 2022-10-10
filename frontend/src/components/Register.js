@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Register({ onRegister }) {
-    const [registerData, setRegisterData] = useState( {
-        email: '',
-        password: '',
-    });
+function Register(props) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setRegisterData({
-            ...registerData,
-            [name]: value,
-        });
-    };
+    function handleMailInput(evt) {
+        setEmail(evt.target.value);
+    }
+
+    function handlePasswordInput(evt) {
+        setPassword(evt.target.value);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onRegister(registerData)
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
+        props.onRegister(email, password);
     }
 
     return (
@@ -34,10 +29,10 @@ function Register({ onRegister }) {
                            required
                            placeholder="Email"
                            autoComplete="email"
-                           value={registerData.email}
+                           value={email}
                            name="email"
                            className="website__email"
-                           onChange={handleChange}
+                           onChange={handleMailInput}
                     />
                 </label>
                 <label className="website__indent">
@@ -46,10 +41,10 @@ function Register({ onRegister }) {
                            required
                            placeholder="Пароль"
                            autoComplete="new-password"
-                           value={registerData.password}
+                           value={password}
                            name="password"
                            className="website__password"
-                           onChange={handleChange}
+                           onChange={handlePasswordInput}
                     />
                 </label>
             </form>

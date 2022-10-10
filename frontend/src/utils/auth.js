@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://api.tanja2204.nomoredomains.icu';
 
-export function register(email, password) {
+export function registerUser(email, password) {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
         headers: {
@@ -11,7 +11,7 @@ export function register(email, password) {
     }).then(checkRes);
 }
 
-export function authorize(email, password) {
+export function loginUser(email, password) {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
         headers: {
@@ -22,7 +22,7 @@ export function authorize(email, password) {
     }).then(checkRes);
 }
 
-export function getContent(jwt) {
+export function getToken(jwt) {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {

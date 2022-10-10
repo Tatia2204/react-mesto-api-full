@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
 
-function Login({ onLogin }) {
-    const [loginData, setLoginData] = useState({
-        email: '',
-        password: '',
-    });
+function Login(props) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setLoginData({
-            ...loginData,
-            [name]: value,
-        });
-    };
+    function handleMailInput(evt) {
+        setEmail(evt.target.value);
+    }
+
+    function handlePasswordInput(evt) {
+        setPassword(evt.target.value);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onLogin(loginData);
-        console.log(loginData);
-            // .catch((err) => {
-            //     console.log(`Ошибка: ${err}`);
-            // });
+        props.onLogin(email, password);
     }
 
     return (
@@ -33,20 +27,20 @@ function Login({ onLogin }) {
                        required
                        placeholder="Email"
                        autoComplete="email"
-                       value={loginData.email}
+                       value={email}
                        name="email"
                        className="website__email"
-                       onChange={handleChange}
+                       onChange={handleMailInput}
                 />
                 <input type="password"
                        id="password"
                        required
                        placeholder="Пароль"
                        autoComplete="new-password"
-                       value={loginData.password}
+                       value={password}
                        name="password"
                        className="website__password"
-                       onChange={handleChange}
+                       onChange={handlePasswordInput}
                 />
             </form>
             <div className="website__button-container">
