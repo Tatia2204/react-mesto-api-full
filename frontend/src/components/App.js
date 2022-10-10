@@ -154,7 +154,6 @@ function App() {
         history.push('/sign-in');
     }
 
-
     useEffect(() => {
         if (isLoggedIn === true) {
             api
