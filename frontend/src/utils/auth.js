@@ -1,9 +1,9 @@
 export const BASE_URL = 'https://api.tanja2204.nomoredomains.icu';
 
-const checkResponse = (response) =>
-    response.ok ?
-        response.json()
-        : Promise.reject(new Error(`Ошибка ${response.status}: ${response.statusText}`));
+// const checkResponse = (response) =>
+//     response.ok ?
+//         response.json()
+//         : Promise.reject(new Error(`Ошибка ${response.status}: ${response.statusText}`));
 
 const headers = {
     'Accept': 'application/json',
@@ -16,7 +16,7 @@ export const register = ({ email, password }) => {
         headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(res => checkResponse(res));
+        .then(checkRes);
 };
 
 export const authorize = ({ email, password }) => {
@@ -25,10 +25,11 @@ export const authorize = ({ email, password }) => {
         headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(res => checkResponse(res));
+        .then(checkRes);
 };
 
 export const getContent = (token) => {
+    console.log(token);
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
@@ -36,5 +37,12 @@ export const getContent = (token) => {
             'Authorization' : `Bearer ${token}`,
         },
     })
-        .then(res => checkResponse(res));
+        .then(checkRes);
 };
+
+function checkRes(res) {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(res.status);
+}
