@@ -18,10 +18,7 @@ function Register({ onRegister }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onRegister(registerData)
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
+        onRegister(registerData);
     }
 
     return (
