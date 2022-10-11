@@ -19,9 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: ['https://tanja2204.nomoredomains.icu',
-    'http://tanja2204.nomoredomains.icu',
-    'http://localhost:3000'],
+  origin: 'https://tanja2204.nomoredomains.icu',
 }));
 
 app.use(requestLogger);
