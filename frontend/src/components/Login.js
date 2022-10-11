@@ -17,10 +17,7 @@ function Login({ onLogin }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onLogin(loginData)
-            .catch((err) => {
-                console.log(`Ошибка: ${err}`);
-            });
+        onLogin(loginData);
     }
 
     return (
