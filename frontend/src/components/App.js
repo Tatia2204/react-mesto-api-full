@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useHistory } from "react-router-dom";
+import { Route, Navigate, useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUser";
 import api from "../utils/api";
 import * as auth from "../utils/auth";
@@ -19,7 +19,6 @@ import success from "../images/success.svg";
 import refusal from "../images/refusal.svg";
 
 function App() {
-    const history = useHistory();
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -33,6 +32,7 @@ function App() {
     const [popupImage, setPopupImage] = useState("");
     const [popupTitle, setPopupTitle] = useState("");
     const [infoTooltip, setInfoTooltip] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");
