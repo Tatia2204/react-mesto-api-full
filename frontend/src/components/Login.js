@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 
-function Login(props) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+function Login({ onLogin }) {
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: '',
+    });
 
-    function handleMailInput(evt) {
-        setEmail(evt.target.value);
-    }
-
-    function handlePasswordInput(evt) {
-        setPassword(evt.target.value);
-    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setLoginData({
+            ...loginData,
+            [name]: value,
+        });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        props.onLogin(email, password);
+        onLogin(loginData)
+            .catch((err) => {
+                console.log(`Ошибка: ${err}`);
+            });
     }
 
     return (
@@ -27,24 +32,24 @@ function Login(props) {
                        required
                        placeholder="Email"
                        autoComplete="email"
-                       value={email}
+                       value={loginData.email}
                        name="email"
                        className="website__email"
-                       onChange={handleMailInput}
+                       onChange={handleChange}
                 />
                 <input type="password"
                        id="password"
                        required
                        placeholder="Пароль"
                        autoComplete="new-password"
-                       value={password}
+                       value={loginData.password}
                        name="password"
                        className="website__password"
-                       onChange={handlePasswordInput}
+                       onChange={handleChange}
                 />
             </form>
             <div className="website__button-container">
-                <button type="submit" className="website__link" onClick={handleSubmit}>Войти</button>
+                <button type="submit" className="website__link" onClick={handleSubmit} >Войти</button>
             </div>
         </div>
     )

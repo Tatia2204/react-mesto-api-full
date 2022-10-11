@@ -1,47 +1,39 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
+import React, {useState, useEffect} from "react";
+import PopupWithForm from "./PopupWithForm.js";
 
-function AddPlacePopup(props) {
-    const [name, setName] = React.useState('');
-    const [link, setLink] = React.useState('');
+function AddPlacePopup({isOpen, onClose, onAddPlace}) {
 
-    function handleNameChange(evt) {
-        setName(evt.target.value);
-    }
+    const [formValue, setFormValue] = useState({name: "", link: ""});
 
-    function handleLinkChange(evt) {
-        setLink(evt.target.value);
+    function handleChange(evt) {
+        const { name, value } = evt.target;
+        setFormValue(prevState => ({ ...prevState, [name]: value }));
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-
-        props.onSubmit({
-            name: name,
-            link: link,
-        });
-
-        props.onClose();
+        onAddPlace({
+            name: formValue.name,
+            link: formValue.link
+        })
     }
 
-    React.useEffect(() => {
-        if (props.isOpen) {
-            setName('');
-            setLink('');
-        }
-    }, [props.isOpen]);
+    useEffect(() => {
+        setFormValue({
+            name: "",
+            link: ""
+        })
+    }, [isOpen])
 
     return (
         <PopupWithForm
             popup="location"
-            isOpen={props.isOpen}
-            onCloseClick={props.onCloseClick}
-            onClose={props.onClose}
-            name={'add'}
-            form={'placeData'}
-            title={'Новое место'}
-            buttonText={'Создать'}
+            isOpen={isOpen}
+            onClose={onClose}
             onSubmit={handleSubmit}
+            name="formLocation"
+            title="Новое место"
+            text="Создать"
         >
             <label className="popup__indent">
                 <input type="text"
@@ -52,8 +44,8 @@ function AddPlacePopup(props) {
                        placeholder="Название"
                        name="name"
                        className="popup__element popup__element_location popup__element_add_heading"
-                       value={name}
-                       onChange={handleNameChange}
+                       value={formValue.name}
+                       onChange={handleChange}
                 />
                 <span className="popup__error" id="name-input-error"></span>
             </label>
@@ -64,8 +56,8 @@ function AddPlacePopup(props) {
                        placeholder="Ссылка на картинку"
                        name="link"
                        className="popup__element popup__element_location popup__element_add_link"
-                       value={link}
-                       onChange={handleLinkChange}
+                       value={formValue.link}
+                       onChange={handleChange}
                 />
                 <span className="popup__error" id="link-input-error"></span>
             </label>

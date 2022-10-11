@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Register(props) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+function Register({ onRegister }) {
+    const [registerData, setRegisterData] = useState( {
+        email: '',
+        password: '',
+    });
 
-    function handleMailInput(evt) {
-        setEmail(evt.target.value);
-    }
-
-    function handlePasswordInput(evt) {
-        setPassword(evt.target.value);
-    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setRegisterData({
+            ...registerData,
+            [name]: value,
+        });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        props.onRegister(email, password);
+        onRegister(registerData)
+            .catch((err) => {
+                console.log(`Ошибка: ${err}`);
+            });
     }
 
     return (
@@ -29,10 +34,10 @@ function Register(props) {
                            required
                            placeholder="Email"
                            autoComplete="email"
-                           value={email}
+                           value={registerData.email}
                            name="email"
                            className="website__email"
-                           onChange={handleMailInput}
+                           onChange={handleChange}
                     />
                 </label>
                 <label className="website__indent">
@@ -41,10 +46,10 @@ function Register(props) {
                            required
                            placeholder="Пароль"
                            autoComplete="new-password"
-                           value={password}
+                           value={registerData.password}
                            name="password"
                            className="website__password"
-                           onChange={handlePasswordInput}
+                           onChange={handleChange}
                     />
                 </label>
             </form>
