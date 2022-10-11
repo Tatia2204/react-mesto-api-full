@@ -1,23 +1,29 @@
 class Api {
     constructor(options) {
         this._url = options.baseUrl;
-        this._headers = options.headers;
+        // this._headers = options.headers;
     }
 
     //загрузка карточек
-    getInitialCards() {
+    getInitialCards(jwt) {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
             .then(this._checkResponse);
     }
 
     //добавление новой карточки
-    addNewCard(data) {
+    addNewCard(data, jwt) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -35,19 +41,26 @@ class Api {
         }
 
     //запрос инфы о профиле
-    getProfileInfo() {
+    getProfileInfo(jwt) {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._headers
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
             .then(this._checkResponse);
     }
 
     //изменение инфы профеля
-    changeProfileInfo(data) {
+    changeProfileInfo(data, jwt) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
             body: JSON.stringify({
                 name: data.profileName,
                 about: data.profileProfession
@@ -57,10 +70,13 @@ class Api {
     }
 
     //изменение аватара профеля
-    changeProfileAvatar(data) {
+    changeProfileAvatar(data, jwt) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
             body: JSON.stringify({
                 avatar: data.avatar
             })
@@ -69,28 +85,24 @@ class Api {
     }
 
     //проверить лайк
-    changeLikeCardStatus(_id, isLiked) {
-
-        if(isLiked) {
-            return fetch(`${this._url}/cards/${_id}/likes`, {
-                method: 'PUT',
-                headers: this._headers
-            })
+    changeLikeCardStatus(cardId, isLiked, jwt) {
+            return fetch(`${this._url}/cards/${cardId}/likes`, {
+                method: `${!isLiked ? 'DELETE' : 'PUT'}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`,
+                },
+        })
                 .then(this._checkResponse);
-        } else {
-            return fetch(`${this._url}/cards/${_id}/likes`, {
-                method: 'DELETE',
-                headers: this._headers
-            })
-                .then(this._checkResponse);
-        }
     }
-
     //удалить карточки
-    deleteCard(_id) {
-        return fetch(`${this._url}/cards/${_id}`, {
+    deleteCard(cardId, jwt) {
+        return fetch(`${this._url}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
             .then(this._checkResponse);
     }
@@ -99,7 +111,8 @@ class Api {
 const api = new Api({
     baseUrl: 'https://api.tanja2204.nomoredomains.icu',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     }
 });
 
