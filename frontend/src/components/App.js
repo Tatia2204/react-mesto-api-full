@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUser";
 import api from "../utils/api";
 import * as auth from "../utils/auth";
@@ -19,7 +19,7 @@ import success from "../images/success.svg";
 import refusal from "../images/refusal.svg";
 
 function App() {
-    const navigate = useNavigate();
+    const history = useHistory();
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -52,7 +52,7 @@ function App() {
 
     useEffect(() => {
         if (isLoggedIn === true) {
-            navigate("/");
+            history.push("/");
         }
     }, [isLoggedIn, navigate]);
 
@@ -60,7 +60,7 @@ function App() {
         auth.registerUser(email, password).then(() => {
             setPopupImage(success);
             setPopupTitle("Вы успешно зарегистрировались!");
-            navigate("/signin");
+            history.push("/signin");
         }).catch(() => {
             closeAllPopups();
             setPopupImage(refusal);
@@ -73,7 +73,7 @@ function App() {
             localStorage.setItem("jwt", res.token);
             setIsLoggedIn(true);
             setMailName(email);
-            navigate("/");
+            history.push("/");
         }).catch(() => {
             closeAllPopups();
             setPopupImage(refusal);
@@ -229,7 +229,7 @@ function App() {
     function onSignOut() {
         setIsLoggedIn(false);
         setMailName(null);
-        navigate("/signin");
+        history.push("/signin");
         localStorage.removeItem("jwt");
     }
 
