@@ -5,7 +5,7 @@ import { CurrentUser } from "../contexts/CurrentUser.js";
 function Main ({cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick,
                    onCardLike, onCardDelete }) {
     const currentUser = useContext(CurrentUser);
-    const { name, about, avatar } = currentUser;
+    const { name, about, avatar } = currentUser.data;
 
     return (
         <main className="content" >
