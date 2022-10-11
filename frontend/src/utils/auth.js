@@ -40,9 +40,10 @@ export const getContent = (token) => {
         .then(checkRes);
 };
 
-function checkRes(res) {
-    if (res.ok) {
-        return res.json();
-    }
-    return Promise.reject(res.status);
-}
+const checkRes = (res) => {
+    return res.ok
+        ? res.json()
+        : Promise.reject(
+            new Error(`Ошибка ${res.status}: ${res.statusText}`)
+        );
+};
