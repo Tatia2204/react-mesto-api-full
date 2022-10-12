@@ -1,0 +1,12 @@
+.popup__element {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    width: 100%;
+    border: none;
+    padding: 0 0 13px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+}

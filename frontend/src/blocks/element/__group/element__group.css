@@ -1,0 +1,11 @@
+.element__group {
+    background: #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 22px 20px 22px 21px;
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    z-index: 1;
+}

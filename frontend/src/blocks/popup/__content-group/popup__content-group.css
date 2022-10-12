@@ -1,0 +1,14 @@
+.popup__content-group {
+    min-width: 433px;
+    max-width: 816px;
+    display: flex;
+    flex-direction: column;
+    grid-area: content;
+    align-self: center;
+}
+
+@media screen and (max-width: 610px) {
+    .popup__content-group {
+        min-width: 0;
+    }
+}
