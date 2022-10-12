@@ -1,28 +1,13 @@
-// const allowedCors = [
-//   'http://tanja2204.nomoredomains.icu',
-//   'https://tanja2204.nomoredomains.icu',
-//   'http://localhost:3000',
-// ];
-//
-// module.exports = (req, res, next) => {
-//   const { origin } = req.headers;
-//   const { method } = req;
-//
-//   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-//
-//   const requestHeaders = req.headers['access-control-request-headers'];
-//
-//   if (allowedCors.includes(origin)) {
-//     res.header('Access-Control-Allow-Origin', origin);
-//     res.header('Access-Control-Allow-Credentials', true);
-//   }
-//
-//   if (method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-//
-//     res.header('Access-Control-Allow-Headers', requestHeaders);
-//
-//     return res.end();
-//   }
-//   return next();
-// };
+module.exports.options = {
+  origin: [ // Массив доменов, с которых разрешены кросс-доменные запросы.
+    'https://tanja2204.nomoredomains.icu/',
+    'http://tanja2204.nomoredomains.icu/',
+    'https://localhost:3000',
+    'http://localhost:3000',
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // настраивает заголовок CORS Access-Control-Allow-Methods.
+  preflightContinue: false, // передать предварительный ответ CORS следующему обработчику.
+  optionsSuccessStatus: 204, // Предоставляет код состояния для успешных OPTIONSзапросов.
+  allowedHeaders: ['Content-Type', 'Origin', 'Referer', 'Accept', 'Authorization'],
+  credentials: true, // сообщает браузерам, следует ли предоставлять ответ внешнему коду JS.
+};

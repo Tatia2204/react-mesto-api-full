@@ -1,9 +1,4 @@
-export const BASE_URL = 'https://api.tanja2204.nomoredomains.icu';
-
-// const checkResponse = (response) =>
-//     response.ok ?
-//         response.json()
-//         : Promise.reject(new Error(`Ошибка ${response.status}: ${response.statusText}`));
+import { checkResponse, BASE_URL } from './constant';
 
 const headers = {
     'Accept': 'application/json',
@@ -16,7 +11,7 @@ export const register = ({ email, password }) => {
         headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(checkRes);
+      .then((res) => checkResponse(res));
 };
 
 export const authorize = ({ email, password }) => {
@@ -25,7 +20,7 @@ export const authorize = ({ email, password }) => {
         headers,
         body: JSON.stringify({ email, password }),
     })
-        .then(checkRes);
+        .then((res) => checkResponse(res));
 };
 
 export const getContent = (token) => {
@@ -37,13 +32,5 @@ export const getContent = (token) => {
             'Authorization' : `Bearer ${token}`,
         },
     })
-        .then(checkRes);
-};
-
-const checkRes = (res) => {
-    return res.ok
-        ? res.json()
-        : Promise.reject(
-            new Error(`Ошибка ${res.status}: ${res.statusText}`)
-        );
+        .then((res) => checkResponse(res));
 };

@@ -8,16 +8,15 @@ function Login({ onLogin }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setLoginData({
-            ...loginData,
-            [name]: value,
-        });
+        setLoginData(prevState => ({ ...prevState, [name]: value }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        onLogin(loginData);
+        onLogin({
+            email: loginData.email,
+            password: loginData.password
+        });
     }
 
     return (
@@ -29,7 +28,7 @@ function Login({ onLogin }) {
                        required
                        placeholder="Email"
                        autoComplete="email"
-                       value={loginData.email}
+                       value={loginData.email || ''}
                        name="email"
                        className="website__email"
                        onChange={handleChange}
@@ -39,7 +38,7 @@ function Login({ onLogin }) {
                        required
                        placeholder="Пароль"
                        autoComplete="new-password"
-                       value={loginData.password}
+                       value={loginData.password || ''}
                        name="password"
                        className="website__password"
                        onChange={handleChange}
