@@ -36,19 +36,19 @@ function App() {
     }, [history]);
 
     function handleEditAvatarHandler() {
-        setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+        setIsEditAvatarPopupOpen(true);
     }
 
     function handleEditProfileHandler() {
-        setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+        setIsEditProfilePopupOpen(true);
     }
 
     function handleAddPlaceHandler() {
-        setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+        setIsAddPlacePopupOpen(true);
     }
 
     function handleInfoTooltip() {
-        setIsInfoTooltipOpen(!isInfoTooltipOpen);
+        setIsInfoTooltipOpen(true);
     }
 
     function handleCardClickDelete() {
@@ -68,9 +68,9 @@ function App() {
         setSelectedCard(card);
     }
 
-    function handleUpdateUser(newProfileInfo) {
+    function handleUpdateUser(data) {
         const jwt = localStorage.getItem('jwt');
-        api.changeProfileInfo(newProfileInfo, jwt)
+        api.changeProfileInfo(data, jwt)
             .then((res) => {
                 setCurrentUser(res.data);
                 closeAllPopups();
@@ -108,9 +108,12 @@ function App() {
 
         const isLiked = card.likes.some((i) => i === currentUser._id);
         const jwt = localStorage.getItem('jwt');
-        api.changeLikeCardStatus(card._id, !isLiked, jwt)
+        api
+            .changeLikeCardStatus(card._id, !isLiked, jwt)
             .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                setCards((state) =>
+                    state.map((c) => (c._id === card._id ? newCard : c))
+                );
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
@@ -122,10 +125,11 @@ function App() {
         api.deleteCard(cardId, jwt)
             .then(() => {
                 setCards((cards) => cards.filter(card => card._id !== cardId));
+                closeAllPopups();
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
-            });
+            })
     }
 
     function handleAuthorization(data) {

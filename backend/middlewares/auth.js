@@ -14,11 +14,11 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, `${NODE_ENV === 'production' ? JWT_SECRET : 'tts'}`);
-    req.user = payload;
+    // верифицируем токен
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'tt-secret');
   } catch (err) {
     throw new AuthError('Необходима авторизация');
   }
-
+  req.user = payload;
   next();
 };

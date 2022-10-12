@@ -1,29 +1,36 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const helmet = require('helmet');
-const cors = require('cors');
-// const { options } = require('./middlewares/corsRequest');
+const auth = require('./middlewares/auth');
+const { options } = require('./middlewares/corsRequest');
+const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const DefaultError = require('./errors/DefaultError');
-const routes = require('./routes');
+const {
+  validationCreateUser, validationLogin,
+} = require('./middlewares/validations');
+
+const { NotFoundError } = require('./errors/NotFoundError');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+app.use('*', cors(options));
+app.use(helmet());
+app.disable('x-powered-by');
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
+mongoose.connect('mongodb://localhost:27017/mestodb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors());
-
 app.use(requestLogger);
-
-app.use(helmet());
-app.disable('x-powered-by');
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -31,7 +38,18 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(routes);
+app.post('/signin', validationLogin, login);
+
+app.post('/signup', validationCreateUser, createUser);
+
+app.use(auth);
+
+app.use('/users', require('./routes/users'));
+app.use('/cards', require('./routes/cards'));
+
+app.use((req, res, next) => {
+  next(new NotFoundError('Запрашиваемая страница не найдена'));
+});
 
 app.use(errorLogger);
 app.use(errors());
