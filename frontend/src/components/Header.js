@@ -1,6 +1,6 @@
 import React from "react";
 import Vector from "../images/Vector.svg";
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 function Header({ userEmail, loggedIn, onLogout  }) {
 

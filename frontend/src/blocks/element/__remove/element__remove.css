@@ -11,3 +11,7 @@
     grid-column: 2 / 3;
     z-index: 1;
 }
+
+.element__remove:hover {
+    opacity: 0.6;
+}
