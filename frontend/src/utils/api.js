@@ -35,6 +35,7 @@ class Api {
     //запрос инфы о профиле
     getProfileInfo(jwt) {
         return fetch(`${this._url}/users/me`, {
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`,
@@ -75,31 +76,20 @@ class Api {
     }
 
     //проверить лайк
-    changeLikeCardStatus(_id, isLiked, jwt) {
-        if(isLiked) {
-            return fetch(`${this._url}/cards/${_id}/likes`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`,
-                },
-            })
-                .then((res) => checkResponse(res));
-        } else {
-            return fetch(`${this._url}/cards/${_id}/likes`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`,
-                },
-            })
-                .then((res) => checkResponse(res));
-        }
+    changeLikeCardStatus(cardId, isLiked, jwt) {
+        return fetch(`${this._url}/cards/${cardId}/likes`, {
+            method: `${!isLiked ? 'DELETE' : 'PUT'}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+            },
+        })
+            .then((res) => checkResponse(res));
     }
 
     //удалить карточки
-    deleteCard(data, jwt) {
-        return fetch(`${this._url}/cards/${data._id}`, {
+    deleteCard(cardId, jwt) {
+        return fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,6 +99,7 @@ class Api {
             .then((res) => checkResponse(res));
     }
 }
+
 
 const api = new Api({
     baseUrl: BASE_URL,

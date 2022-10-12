@@ -10,11 +10,11 @@ import * as auth from "../utils/auth.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
-import PopupWithForm from "./PopupWithForm.js";
 import Register from "./Register.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
+import PopupWithConfirmation from "./PopupWithConfirmation.js";
 
 function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -28,6 +28,7 @@ function App() {
     const [isRegister, setIsRegister] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('');
+    const [removedCardId, setRemovedCardId] = useState('');
     const history = useHistory();
 
     useEffect(() => {
@@ -51,8 +52,9 @@ function App() {
         setIsInfoTooltipOpen(true);
     }
 
-    function handleCardClickDelete() {
-        setIsFormatPopupOpen(!isFormatPopupOpen);
+    function handleCardClickDelete(cardId) {
+        setIsFormatPopupOpen(true);
+        setRemovedCardId(cardId);
     }
 
     function closeAllPopups() {
@@ -202,7 +204,11 @@ function App() {
         <CurrentUser.Provider value={currentUser}>
 
             <div className="page">
-                <Header loggedIn={isLoggedIn} userEmail={userEmail} onLogout={handleLogout} onRegister={isRegister}/>
+                <Header
+                    loggedIn={isLoggedIn}
+                    userEmail={userEmail}
+                    onLogout={handleLogout}
+                />
                 <Switch>
                     <Route path="/sign-up">
                         <Register onRegister={handleRegister} />
@@ -221,8 +227,6 @@ function App() {
                         cards={cards}
                         onCardLike={handleCardLike}
                         onCardClickDelete={handleCardClickDelete}
-                        onCardDelete={handleCardDelete}
-                        userEmail={userEmail}
                     />
                 </Switch>
                 <Footer />
@@ -255,15 +259,11 @@ function App() {
                     onAddPlace={handleAddPlaceSubmit}
                 />
 
-                <PopupWithForm
-                    popup="delete"
+                <PopupWithConfirmation
+                    isOpen={isFormatPopupOpen}
                     onClose={closeAllPopups}
-                    name="formDelete"
-                    title="Вы уверены?"
-                    text="Да"
-                >
-                </PopupWithForm>
-
+                    onSubmit={handleCardDelete}
+                    card={removedCardId} />
             </div>
 
         </CurrentUser.Provider >
