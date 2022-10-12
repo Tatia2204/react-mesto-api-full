@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import { CurrentUserContext } from '../contexts/CurrentUser.js'
+import { CurrentUser } from '../contexts/CurrentUser.js'
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
@@ -16,11 +16,11 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
     React.useEffect(() => {
         if (!isOpen) {
-            avatarLink.current.value = CurrentUserContext.avatar
+            avatarLink.current.value = CurrentUser.avatar
         } else {
             avatarLink.current.value = ''
         }
-    }, [CurrentUserContext, isOpen])
+    }, [CurrentUser, isOpen])
 
     return (
         <PopupWithForm
