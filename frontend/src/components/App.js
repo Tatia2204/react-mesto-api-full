@@ -28,7 +28,7 @@ function App() {
     const [isRegister, setIsRegister] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('');
-    const [removedCardId, setRemovedCardId] = useState('');
+    const [removedCardId, setRemovedCardId] = React.useState('');
     const history = useHistory();
 
     useEffect(() => {
