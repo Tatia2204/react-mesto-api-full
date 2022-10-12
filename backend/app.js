@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const auth = require('./middlewares/auth');
-const { options } = require('./middlewares/corsRequest');
 const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const DefaultError = require('./errors/DefaultError');
@@ -18,7 +17,8 @@ const { NotFoundError } = require('./errors/NotFoundError');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-app.use('*', cors(options));
+
+app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
 
