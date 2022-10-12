@@ -18,7 +18,14 @@ const { NotFoundError } = require('./errors/NotFoundError');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-app.use(cors());
+app.use(cors(
+{origin: [
+    'https://tanja2204.nomoredomains.icu',
+    'http://tanja2204.nomoredomains.icu',
+    'https://localhost:3000',
+    'http://localhost:3000',
+  ],
+}));
 app.use(helmet());
 app.disable('x-powered-by');
 
