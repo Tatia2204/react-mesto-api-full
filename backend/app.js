@@ -18,14 +18,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({
-  origin: [ // Массив доменов, с которых разрешены кросс-доменные запросы.
-    'https://tanja2204.nomoredomains.icu/',
-    'http://tanja2204.nomoredomains.icu/',
-    'https://localhost:3000',
-    'http://localhost:3000',
-  ],
-}));
+app.use(cors());
 
 app.use(requestLogger);
 
