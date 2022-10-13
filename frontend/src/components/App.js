@@ -52,7 +52,7 @@ function App() {
         setIsInfoTooltipOpen(true);
     }
 
-    function handleCardClickDelete(cardId) {
+    function handleCardDeleteClick(cardId) {
         setIsFormatPopupOpen(true);
         setRemovedCardId(cardId);
     }
@@ -226,7 +226,7 @@ function App() {
                         onCardClick={handleCardClick}
                         cards={cards}
                         onCardLike={handleCardLike}
-                        onCardClickDelete={handleCardClickDelete}
+                        onCardClickDelete={handleCardDeleteClick}
                     />
                 </Switch>
                 <Footer />
