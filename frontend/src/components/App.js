@@ -126,7 +126,8 @@ function App() {
         const jwt = localStorage.getItem('jwt');
         api.deleteCard(cardId, jwt)
             .then(() => {
-                setCards((cards) => cards.filter(card => card._id !== cardId));
+                setCards((cards) =>
+                    cards.filter(card => card._id !== cardId));
                 closeAllPopups();
             })
             .catch((err) => {

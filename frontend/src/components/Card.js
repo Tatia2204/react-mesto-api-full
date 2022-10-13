@@ -34,7 +34,7 @@ function Card({card, onCardClick, onCardLike, onCardClickDelete, onCardDelete })
 
     return (
         <article className="element">
-            <button aria-label="Удалить карточку" className="element__remove" type="button"
+            <button aria-label="Удалить карточку" className={cardDeleteButtonClassName}  type="button"
                     onClick={handleDeleteClick}
                     onClick={handleDeleteCard}/>
             <img src={card.link}
