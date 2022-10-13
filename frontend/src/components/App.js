@@ -21,7 +21,8 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-    const [isFormatPopupOpen, setIsFormatPopupOpen] = React.useState(false);
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = React.useState(false);
+    const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
@@ -29,7 +30,7 @@ function App() {
     const [isRegister, setIsRegister] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('');
-    const [removedCardId, setRemovedCardId] = React.useState('');
+
     const history = useHistory();
 
     useEffect(() => {
@@ -49,26 +50,27 @@ function App() {
         setIsAddPlacePopupOpen(true);
     }
 
+    function handleCardClick(card) {
+        setSelectedCard(card);
+        setIsImagePopupOpen(true);
+    }
+
     function handleInfoTooltip() {
         setIsInfoTooltipOpen(true);
     }
 
-    function handleCardClickDelete(cardId) {
-        setIsFormatPopupOpen(true);
-        setRemovedCardId(cardId);
+    function handleCardClickDelete(card) {
+        setSelectedCard(card);
+        setIsDeletePopupOpen(true);
     }
 
     function closeAllPopups() {
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
-        setIsFormatPopupOpen(false)
-        setSelectedCard({});
+        setIsImagePopupOpen(false);
+        setIsDeletePopupOpen(true);
         setIsInfoTooltipOpen(false);
-    }
-
-    function handleCardClick(card) {
-        setSelectedCard(card);
     }
 
     function handleUpdateUser(data) {
@@ -123,12 +125,11 @@ function App() {
             });
     }
 
-    function handleCardDelete(cardId) {
-        const jwt = localStorage.getItem('jwt');
-        api.deleteCard(cardId, jwt)
+    function handleDeleteCard(card) {
+        // const jwt = localStorage.getItem('jwt');
+        api.deleteCard(card)
             .then(() => {
-                setCards((cards) =>
-                    cards.filter(card => card._id !== cardId));
+                setCards((items) => items.filter((c) => c !== card && c));
                 closeAllPopups();
             })
             .catch((err) => {
@@ -228,12 +229,13 @@ function App() {
                         onCardClick={handleCardClick}
                         cards={cards}
                         onCardLike={handleCardLike}
-                        onCardClickDelete={handleCardClickDelete}
+                        onCardDelete={handleCardClickDelete}
                     />
                 </Switch>
                 <Footer />
                 <ImagePopup
                     card={selectedCard}
+                    isOpen={isImagePopupOpen}
                     onClose={closeAllPopups}
                 />
 
@@ -262,10 +264,10 @@ function App() {
                 />
 
                 <PopupWithConfirmation
-                    isOpen={isFormatPopupOpen}
+                    isOpen={isDeletePopupOpen}
                     onClose={closeAllPopups}
-                    onSubmit={handleCardDelete}
-                    card={removedCardId} />
+                    onSubmit={handleDeleteCard}
+                    card={selectedCard} />
 
                 {/*<PopupWithForm*/}
                 {/*    popup="delete"*/}
