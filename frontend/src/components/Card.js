@@ -19,9 +19,9 @@ function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
 
     // Определяем, являемся ли мы владельцем текущей карточки
     const isOwn = card.owner === currentUser._id;
-    // const cardDeleteButtonClassName = (
-    //     `element__remove ${isOwn ? 'element__remove_visible' : 'element__remove_hidden'}`
-    // );
+    const cardDeleteButtonClassName = (
+        `element__remove ${isOwn ? 'element__remove_visible' : 'element__remove_hidden'}`
+    );
 
     //есть ли у карточки лайк
     const isLiked = card.likes.some((i) => i === currentUser._id);
@@ -30,9 +30,9 @@ function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
 
     return (
         <article className="element">
-            {isOwn && <button
+            <button
                 aria-label="Удалить карточку"
-                className="element__remove"
+                className={cardDeleteButtonClassName}
                 type="button"
                 onClick={handleDeleteClick}/>
             }

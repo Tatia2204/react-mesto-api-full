@@ -1,10 +1,10 @@
 import PopupWithForm from './PopupWithForm.js'
 
-function PopupWithConfirmation({ isOpen, onClose, card, onSubmit, submitTitle }) {
+function PopupWithConfirmation({ isOpen, onClose, card, onCardDelete, submitTitle }) {
 
     function handleConfirmiation(evt) {
         evt.preventDefault();
-        onSubmit(card);
+        onCardDelete(card);
     }
 
     return (

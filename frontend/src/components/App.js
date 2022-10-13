@@ -140,11 +140,14 @@ function App() {
             });
     }
 
-    function handleCardDelete(card) {
+    function handleCardDelete(cardId) {
+        const jwt = localStorage.getItem('jwt');
         setConfirmationPopupSubmitTitle('Удаление...')
-        api.deleteCard(card)
+        api.deleteCard(cardId, jwt)
             .then(() => {
-                setCards((items) => items.filter((c) => c !== card && c));
+                setCards(cards.filter((item) => {
+                    return item._id !== cardId
+                }));
                 closeAllPopups();
             })
             .catch((err) => {
@@ -287,7 +290,7 @@ function App() {
                     isOpen={isConfirmationPopupOpen}
                     submitTitle={confirmationPopupSubmitTitle}
                     onClose={closeAllPopups}
-                    onSubmit={handleCardDelete}
+                    onCardDelete={handleCardDelete}
                     card={removedCardId} />
 
             </div>
