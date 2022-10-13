@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { CurrentUser } from "../contexts/CurrentUser.js";
 
-function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
+function Card({card, onCardClick, onCardLike, onCardClickDelete, onCardDelete }) {
 
     const currentUser = useContext(CurrentUser);
 
@@ -14,11 +14,18 @@ function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
     }
 
     function handleDeleteClick () {
-        onCardDeleteClick(card._id);
+        onCardClickDelete(card._id);
+    }
+
+    function handleDeleteCard () {
+        onCardDelete(card._id);
     }
 
     // Определяем, являемся ли мы владельцем текущей карточки
     const isOwn = card.owner === currentUser._id;
+    const cardDeleteButtonClassName = (
+        `element__remove ${isOwn ? 'element__remove_visible' : 'element__remove_hidden'}`
+    );
 
     //есть ли у карточки лайк
     const isLiked = card.likes.some((i) => i === currentUser._id);
@@ -27,12 +34,9 @@ function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
 
     return (
         <article className="element">
-            {isOwn && <button aria-label="Удалить карточку"
-                              className="element__remove"
-                              type="button"
-                              onClick={handleDeleteClick}
-            />
-            }
+            <button aria-label="Удалить карточку" className="element__remove" type="button"
+                    onClick={handleDeleteClick}
+                    onClick={handleDeleteCard}/>
             <img src={card.link}
                  alt={card.name}
                  className="element__mask-group"
