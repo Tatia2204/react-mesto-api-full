@@ -140,12 +140,11 @@ function App() {
             });
     }
 
-    function handleCardDelete(cardId) {
-        const jwt = localStorage.getItem('jwt');
+    function handleCardDelete(card) {
         setConfirmationPopupSubmitTitle('Удаление...')
-        api.deleteCard(cardId, jwt)
+        api.deleteCard(card)
             .then(() => {
-                setCards((cards) => cards.filter(card => card._id !== cardId));
+                setCards((items) => items.filter((c) => c !== card && c));
                 closeAllPopups();
             })
             .catch((err) => {
