@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import PopupWithForm from "./PopupWithForm.js";
 import { CurrentUser } from '../contexts/CurrentUser.js'
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, submitTitle }) {
 
     const avatarLink = useRef();
 
@@ -26,6 +26,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
         <PopupWithForm
             popup="avatar"
             isOpen={isOpen}
+            submitTitle={submitTitle}
             onClose={onClose}
             onSubmit={handleSubmit}
             name="formAvatar"

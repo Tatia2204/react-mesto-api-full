@@ -1,6 +1,6 @@
 import PopupWithForm from './PopupWithForm.js'
 
-function PopupWithConfirmation({ isOpen, onClose, card, onSubmit }) {
+function PopupWithConfirmation({ isOpen, onClose, card, onSubmit, submitTitle }) {
 
     function handleConfirmiation(evt) {
         evt.preventDefault();
@@ -14,6 +14,7 @@ function PopupWithConfirmation({ isOpen, onClose, card, onSubmit }) {
             title="Вы уверены?"
             text="Да"
             onClose={onClose}
+            submitTitle={submitTitle}
             isOpen={isOpen}
             onSubmit={handleConfirmiation}
         >

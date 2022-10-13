@@ -32,6 +32,11 @@ function App() {
     const [userEmail, setUserEmail] = React.useState('');
     const history = useHistory();
 
+    const [editProfilePopupSubmitTitle, setEditProfilePopupSubmitTitle] = React.useState('Сохранить');
+    const [editAvatarPopupSubmitTitle, setEditAvatarPopupSubmitTitle] = React.useState('Сохранить');
+    const [addPlacePopupSubmitTitle, setAddPlacePopupSubmitTitle] = React.useState('Создать');
+    const [confirmationPopupSubmitTitle, setConfirmationPopupSubmitTitle] = React.useState('Да');
+
     useEffect(() => {
         handleTokenCheck();
         // eslint-disable-next-line
@@ -72,6 +77,7 @@ function App() {
     }
 
     function handleUpdateUser(data) {
+        setEditProfilePopupSubmitTitle('Сохранение...')
         const jwt = localStorage.getItem('jwt');
         api.changeProfileInfo(data, jwt)
             .then((res) => {
@@ -80,11 +86,15 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
-            });
+            })
+            .finally(() => {
+            setEditProfilePopupSubmitTitle('Сохранить')
+        })
     }
 
     function handleUpdateAvatar(data) {
         const jwt = localStorage.getItem('jwt');
+        setEditAvatarPopupSubmitTitle('Сохранение...')
         api.changeProfileAvatar(data, jwt)
             .then((data) => {
                 setCurrentUser(data);
@@ -92,11 +102,15 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
-            });
+            })
+            .finally(() => {
+                setEditAvatarPopupSubmitTitle('Сохранить')
+            })
     }
 
     function handleAddPlaceSubmit(data) {
         const jwt = localStorage.getItem('jwt');
+        setAddPlacePopupSubmitTitle('Создание...')
         api.addNewCard(data, jwt)
             .then((newCard) => {
                 setCards([newCard, ...cards]);
@@ -104,7 +118,10 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
-            });
+            })
+            .finally(() => {
+                setAddPlacePopupSubmitTitle('Создать')
+            })
     }
 
     function handleCardLike(card) {
@@ -125,6 +142,7 @@ function App() {
 
     function handleCardDelete(cardId) {
         const jwt = localStorage.getItem('jwt');
+        setConfirmationPopupSubmitTitle('Удаление...')
         api.deleteCard(cardId, jwt)
             .then(() => {
                 setCards((cards) => cards.filter(card => card._id !== cardId));
@@ -132,6 +150,9 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
+            })
+            .finally(() => {
+                setConfirmationPopupSubmitTitle('Да')
             })
     }
 
@@ -244,36 +265,31 @@ function App() {
 
                 <EditProfilePopup
                     isOpen={isEditProfilePopupOpen}
+                    submitTitle={editProfilePopupSubmitTitle}
                     onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser}
                 />
 
                 <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
+                    submitTitle={editAvatarPopupSubmitTitle}
                     onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar}
                 />
 
                 <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}
+                    submitTitle={addPlacePopupSubmitTitle}
                     onClose={closeAllPopups}
                     onAddPlace={handleAddPlaceSubmit}
                 />
 
                 <PopupWithConfirmation
                     isOpen={isConfirmationPopupOpen}
+                    submitTitle={confirmationPopupSubmitTitle}
                     onClose={closeAllPopups}
                     onSubmit={handleCardDelete}
                     card={removedCardId} />
-
-                {/*<PopupWithForm*/}
-                {/*    popup="delete"*/}
-                {/*    onClose={closeAllPopups}*/}
-                {/*    name="formDelete"*/}
-                {/*    title="Вы уверены?"*/}
-                {/*    text="Да"*/}
-                {/*>*/}
-                {/*</PopupWithForm>*/}
 
             </div>
 
