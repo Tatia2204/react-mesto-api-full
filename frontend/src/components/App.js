@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
@@ -21,8 +21,8 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-    const [isDeletePopupOpen, setIsDeletePopupOpen] = React.useState(false);
-    const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = React.useState(false);
+    const [removedCardId, setRemovedCardId] = React.useState('');
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
@@ -30,7 +30,6 @@ function App() {
     const [isRegister, setIsRegister] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('');
-
     const history = useHistory();
 
     useEffect(() => {
@@ -52,25 +51,24 @@ function App() {
 
     function handleCardClick(card) {
         setSelectedCard(card);
-        setIsImagePopupOpen(true);
     }
 
     function handleInfoTooltip() {
         setIsInfoTooltipOpen(true);
     }
 
-    function handleCardClickDelete(card) {
-        setSelectedCard(card);
-        setIsDeletePopupOpen(true);
+    function handleCardDeleteClick(cardId) {
+        setIsConfirmationPopupOpen(true);
+        setRemovedCardId(cardId);
     }
 
     function closeAllPopups() {
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
-        setIsImagePopupOpen(false);
-        setIsDeletePopupOpen(true);
-        setIsInfoTooltipOpen(false);
+        setIsConfirmationPopupOpen(false)
+        setIsInfoTooltipOpen(false)
+        setSelectedCard({})
     }
 
     function handleUpdateUser(data) {
@@ -125,11 +123,11 @@ function App() {
             });
     }
 
-    function handleDeleteCard(card) {
-        // const jwt = localStorage.getItem('jwt');
-        api.deleteCard(card)
+    function handleCardDelete(cardId) {
+        const jwt = localStorage.getItem('jwt');
+        api.deleteCard(cardId, jwt)
             .then(() => {
-                setCards((items) => items.filter((c) => c !== card && c));
+                setCards((cards) => cards.filter(card => card._id !== cardId));
                 closeAllPopups();
             })
             .catch((err) => {
@@ -229,13 +227,12 @@ function App() {
                         onCardClick={handleCardClick}
                         cards={cards}
                         onCardLike={handleCardLike}
-                        onCardDelete={handleCardClickDelete}
+                        onCardDeleteClick={handleCardDeleteClick}
                     />
                 </Switch>
                 <Footer />
                 <ImagePopup
                     card={selectedCard}
-                    isOpen={isImagePopupOpen}
                     onClose={closeAllPopups}
                 />
 
@@ -264,10 +261,10 @@ function App() {
                 />
 
                 <PopupWithConfirmation
-                    isOpen={isDeletePopupOpen}
+                    isOpen={isConfirmationPopupOpen}
                     onClose={closeAllPopups}
-                    onSubmit={handleDeleteCard}
-                    card={selectedCard} />
+                    onSubmit={handleCardDelete}
+                    card={removedCardId} />
 
                 {/*<PopupWithForm*/}
                 {/*    popup="delete"*/}
