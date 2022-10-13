@@ -14,8 +14,8 @@ import Register from "./Register.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
-// import PopupWithConfirmation from "./PopupWithConfirmation.js";
-import PopupWithForm from "./PopupWithForm.js";
+import PopupWithConfirmation from "./PopupWithConfirmation.js";
+// import PopupWithForm from "./PopupWithForm.js";
 
 function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -29,7 +29,7 @@ function App() {
     const [isRegister, setIsRegister] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('');
-    // const [removedCardId, setRemovedCardId] = React.useState('');
+    const [removedCardId, setRemovedCardId] = React.useState('');
     const history = useHistory();
 
     useEffect(() => {
@@ -53,8 +53,9 @@ function App() {
         setIsInfoTooltipOpen(true);
     }
 
-    function handleCardClickDelete() {
-        setIsFormatPopupOpen(!isFormatPopupOpen);
+    function handleCardClickDelete(cardId) {
+        setIsFormatPopupOpen(true);
+        setRemovedCardId(cardId);
     }
 
     function closeAllPopups() {
@@ -228,7 +229,6 @@ function App() {
                         cards={cards}
                         onCardLike={handleCardLike}
                         onCardClickDelete={handleCardClickDelete}
-                        onCardDelete={handleCardDelete}
                     />
                 </Switch>
                 <Footer />
@@ -261,20 +261,20 @@ function App() {
                     onAddPlace={handleAddPlaceSubmit}
                 />
 
-                {/*<PopupWithConfirmation*/}
-                {/*    isOpen={isFormatPopupOpen}*/}
-                {/*    onClose={closeAllPopups}*/}
-                {/*    onSubmit={handleCardDelete}*/}
-                {/*    card={removedCardId} />*/}
-
-                <PopupWithForm
-                    popup="delete"
+                <PopupWithConfirmation
+                    isOpen={isFormatPopupOpen}
                     onClose={closeAllPopups}
-                    name="formDelete"
-                    title="Вы уверены?"
-                    text="Да"
-                >
-                </PopupWithForm>
+                    onSubmit={handleCardDelete}
+                    card={removedCardId} />
+
+                {/*<PopupWithForm*/}
+                {/*    popup="delete"*/}
+                {/*    onClose={closeAllPopups}*/}
+                {/*    name="formDelete"*/}
+                {/*    title="Вы уверены?"*/}
+                {/*    text="Да"*/}
+                {/*>*/}
+                {/*</PopupWithForm>*/}
 
             </div>
 
