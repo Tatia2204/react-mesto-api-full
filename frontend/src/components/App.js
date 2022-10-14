@@ -141,10 +141,8 @@ function App() {
     }
 
     function handleCardDelete(cardId) {
-        console.log('handleCardDelete', cardId)
         const jwt = localStorage.getItem('jwt');
         setConfirmationPopupSubmitTitle('Удаление...');
-        console.log('setCards', cards, cardId);
         api.deleteCard(cardId, jwt)
             .then(() => {
                 setCards((cards) => cards.filter(cards => cards._id !== cardId));

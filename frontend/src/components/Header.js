@@ -10,8 +10,8 @@ function Header({ userEmail, loggedIn, onLogout  }) {
             {loggedIn && (
                 <div className="header__group">
                     <h2 className="header__email">{userEmail}</h2>
-                <Link className="link header__link" to="/sign-in" onClick={() => onLogout()} >Выйти</Link>
-                    </div>
+                    <Link className="link header__link" to="/sign-in" onClick={() => onLogout()} >Выйти</Link>
+                </div>
             )}
             <Route path="/sign-up">
                 <div className="header__group">
