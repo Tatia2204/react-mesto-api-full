@@ -201,6 +201,12 @@ function App() {
             })
             .catch((err) => console.log(err));
         api
+            .getProfileInfo(jwt)
+            .then((res) => {
+                setCurrentUser(res.data)
+            })
+            .catch((err) => console.log(err));
+        api
             .getInitialCards(jwt)
             .then((res) => {
                 setCards(res.data)
