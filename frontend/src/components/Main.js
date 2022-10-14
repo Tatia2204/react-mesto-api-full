@@ -37,6 +37,7 @@ function Main ({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick,
             </section>
 
             <section className="elements">
+                console.log(cards);
                 {cards.map((card) => (
                     <Card key={card._id}
                           card={card}

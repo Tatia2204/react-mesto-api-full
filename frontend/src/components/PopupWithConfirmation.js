@@ -5,6 +5,7 @@ function PopupWithConfirmation({ isOpen, onClose, card, onCardDelete, submitTitl
     function handleConfirmiation(evt) {
         evt.preventDefault();
         onCardDelete(card);
+        console.log('onCardDelete':card);
     }
 
     return (

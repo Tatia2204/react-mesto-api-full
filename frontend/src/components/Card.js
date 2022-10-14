@@ -7,6 +7,8 @@ function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
 
     function handleClick () {
         onCardClick(card);
+        console.log('onCardClick':card);
+
     }
 
     function handleLikeClick () {
@@ -15,10 +17,12 @@ function Card({card, onCardClick, onCardLike, onCardDeleteClick }) {
 
     function handleDeleteClick () {
         onCardDeleteClick(card._id);
+        console.log('onCardDeleteClick':card);
     }
 
     // Определяем, являемся ли мы владельцем текущей карточки
     const isOwn = card.owner === currentUser._id;
+    console.log('isOwn':card.owner, currentUser._id);
     const cardDeleteButtonClassName = (
         `element__remove ${isOwn ? 'element__remove_visible' : 'element__remove_hidden'}`
     );

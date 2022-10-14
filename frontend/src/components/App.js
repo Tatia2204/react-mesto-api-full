@@ -141,11 +141,13 @@ function App() {
     }
 
     function handleCardDelete(cardId) {
+        console.log('handleCardDelete':cardId);
         const jwt = localStorage.getItem('jwt');
         setConfirmationPopupSubmitTitle('Удаление...')
         api.deleteCard(cardId, jwt)
             .then(() => {
-                setCards((cards) => cards.filter(card => card !== cardId));
+                console.log('далить карточку':card._id, cardId);
+                setCards((cards) => cards.filter(card => card._id !== cardId));
                 closeAllPopups();
             })
             .catch((err) => {
