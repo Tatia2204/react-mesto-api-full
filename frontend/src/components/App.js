@@ -15,7 +15,6 @@ import ProtectedRoute from "./ProtectedRoute.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
 import PopupWithConfirmation from "./PopupWithConfirmation.js";
-// import PopupWithForm from "./PopupWithForm.js";
 
 function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
