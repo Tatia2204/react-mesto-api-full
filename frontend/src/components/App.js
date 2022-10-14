@@ -147,6 +147,7 @@ function App() {
         api.deleteCard(cardId, jwt)
             .then(() => {
                 setCards((cards) => cards.filter(card => card._id !== cardId));
+                console.log('setCards', cards, cardId)
                 closeAllPopups();
             })
             .catch((err) => {
