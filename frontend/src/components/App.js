@@ -146,8 +146,8 @@ function App() {
         setConfirmationPopupSubmitTitle('Удаление...')
         api.deleteCard(cardId, jwt)
             .then(() => {
+                console.log('setCards', cards, cardId);
                 setCards((cards) => cards.filter(card => card._id !== cardId));
-                console.log('setCards', cards, cardId)
                 closeAllPopups();
             })
             .catch((err) => {
