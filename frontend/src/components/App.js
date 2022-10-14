@@ -201,18 +201,33 @@ function App() {
             })
             .catch((err) => console.log(err));
         api
-            .getProfileInfo(jwt)
-            .then((res) => {
-                setCurrentUser(res.data)
-            })
-            .catch((err) => console.log(err));
-        api
             .getInitialCards(jwt)
             .then((res) => {
                 setCards(res.data)
             })
             .catch((err) => console.log(err));
     }
+
+    useEffect(() => {
+        if (isLoggedIn === true) {
+            api
+                .getProfileInfo()
+                .then((data) => {
+                    setCurrentUser(data);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка: ${err}`);
+                });
+            // api
+            //     .getInitialCards()
+            //     .then((data) => {
+            //         setCards(data);
+            //     })
+            //     .catch((err) => {
+            //         console.log(`Ошибка: ${err}`);
+            //     });
+        }
+    }, [isLoggedIn]);
 
     useEffect(() => {
         if (isLoggedIn) {
