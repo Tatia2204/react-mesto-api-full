@@ -89,7 +89,7 @@ class Api {
 
     //удалить карточки
     deleteCard(cardId, jwt) {
-        console.log('deleteCard' cardId);
+        console.log('api_deleteCard', cardId);
         return fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
             headers: {
