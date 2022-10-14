@@ -163,6 +163,7 @@ function App() {
                 setIsLoggedIn(true);
                 localStorage.setItem('jwt', data.token)
                 setUserEmail(data.email);
+                handleTokenCheck();
                 history.push('/');
             })
             .catch((err) => {
@@ -207,27 +208,6 @@ function App() {
             })
             .catch((err) => console.log(err));
     }
-
-    useEffect(() => {
-        if (isLoggedIn === true) {
-            api
-                .getProfileInfo()
-                .then((data) => {
-                    setCurrentUser(data);
-                })
-                .catch((err) => {
-                    console.log(`Ошибка: ${err}`);
-                });
-            // api
-            //     .getInitialCards()
-            //     .then((data) => {
-            //         setCards(data);
-            //     })
-            //     .catch((err) => {
-            //         console.log(`Ошибка: ${err}`);
-            //     });
-        }
-    }, [isLoggedIn]);
 
     useEffect(() => {
         if (isLoggedIn) {
