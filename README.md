@@ -12,11 +12,11 @@
 * Открытие фотографии в полном размере;
 * Авторизация и регистрация пользователей.
 
-Публичный IP - 158.160.13.100
+**Публичный IP** - 158.160.13.100
 
-Ссылка на сайт - https://tanja2204.nomoredomains.icu
+**Ссылка на сайт** - https://tanja2204.nomoredomains.icu
 
-Ссылка API - https://api.tanja2204.nomoredomains.icu
+**Ссылка API** - https://api.tanja2204.nomoredomains.icu
 
 **GitHub Pages** 
 * [Ссылка на GitHub Pages](https://tatia2204.github.io/react-mesto-api-full/)
@@ -57,7 +57,7 @@
 * Сelebrate;
 * Winston.
 
-**Макеты Проектной работы в Figma:**
+### Макеты Проектной работы в Figma:
 * [Макет1](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1);
 * [Макет2](https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1);
 * [Макет3](https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1);
