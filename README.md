@@ -70,17 +70,5 @@
 
 ### Ссылки:
 
-**Публичный IP** - 158.160.13.100
-
-**Ссылка на сайт** - https://tanja2204.nomoredomains.icu
-
-**Ссылка API** - https://api.tanja2204.nomoredomains.icu
-
-**GitHub Pages** 
-* [Ссылка на GitHub Pages](https://tatia2204.github.io/react-mesto-api-full/)
-
-* [Ссылка на репозиторий](https://github.com/Tatia2204/react-mesto-api-full)
-
-
-
-
+**Frontend** - https://tanja2204.nomoredomains.icu
+**Backend** - https://api.tanja2204.nomoredomains.icu
