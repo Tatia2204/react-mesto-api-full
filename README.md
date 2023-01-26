@@ -70,5 +70,5 @@
 
 ### Ссылки:
 
-**Frontend** - https://tanja2204.nomoredomains.icu
-**Backend** - https://api.tanja2204.nomoredomains.icu
+* Frontend - https://tanja2204.nomoredomains.icu
+* Backend - https://api.tanja2204.nomoredomains.icu
